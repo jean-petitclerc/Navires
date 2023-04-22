@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Liste des navires{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h1>Liste des Navires</h1>
+    </div>
+    <p>
+        <a href="{% url 'nnf:ajout_navire' %}" class="btn btn-primary">Ajouter un navire</a>
+        <table id="table"
+               data-toggle="table"
+               data-search="true"
+               data-show-columns="true"
+               data-pagination="true"
+               data-page-size="25"
+               data-page-list="[25, 50, 100, 250, 500, all]"
+               data-response-handler="responseHandler">
+            <thead>
+                <tr>
+                    <th data-field="nom" data-sortable="true">Nom</th>
+                    <th data-field="proprietaire" data-sortable="true">Propriétaire</th>
+                    <th data-field="armateur" data-sortable="true">Armateur</th>
+                    <th data-field="actions" data-sortable="false">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for n in navires %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'nnf:detail_navire' n.id  %}">{{ n.nom }}</a>
+                        </td>
+                        {% if n.proprietaire %}
+                            <td>{{ n.proprietaire }}</td>
+                        {% else %}
+                            <td>Inconnu</td>
+                        {% endif %}
+                        {% if n.armateur %}
+                            <td>{{ n.armateur }}</td>
+                        {% else %}
+                            <td>Inconnu</td>
+                        {% endif %}
+                        <td class="text-center">
+                            <a href="{% url 'nnf:modifier_navire' n.id %}"
+                               class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Modifier">
+                                <span class="bi-pencil"></span>
+                            </a>
+                            <a href="{% url 'nnf:supprimer_navire' n.id %}"
+                               class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Supprimer">
+                               <span class="bi-trash"></span>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </p>
+</div>
+{% endblock %}

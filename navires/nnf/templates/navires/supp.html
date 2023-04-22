@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Supprimer un navire{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="page-header">
+            <h1>Supprimer le navire {{ navire.nom }}</h1>
+        </div>
+        <div class="module">
+            <form action="" method="post">
+                {% csrf_token %}
+                <p>Es-tu sûr de vouloir supprimer ce navire?</p>
+                <p>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col">Attribut</th>
+                                <th scope="col">Valeur</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Nom</td>
+                                <td>{{ navire.nom }}</td>
+                            </tr>
+                            <tr>
+                                <td>Propriétaire</td>
+                                {% if navire.proprietaire %}
+                                    <td>{{ navire.proprietaire }}</td>
+                                {% else %}
+                                    <td>Inconnu</td>
+                                {% endif %}
+                            </tr>
+                            <tr>
+                                <td>Armateur</td>
+                                {% if navire.armateur %}
+                                    <td>{{ navire.armateur }}</td>
+                                {% else %}
+                                    <td>Inconnu</td>
+                                {% endif %}
+                            </tr>
+                            <tr>
+                                <td>Tonnage</td>
+                                {% if navire.tonnage %}
+                                    <td>{{ navire.tonnage }}</td>
+                                {% else %}
+                                    <td>&nbsp;</td>
+                                {% endif %}
+                            </tr>
+                        </tbody>
+                    </table>
+                </p>
+                <p>
+                    <button type="submit" class="btn btn-primary">Oui</button>
+                    <a href="{% url 'nnf:liste_navires' %}" class="btn btn-primary">Non</a>
+                </p>
+            </form>
+        </div>
+    </div>
+{% endblock %}

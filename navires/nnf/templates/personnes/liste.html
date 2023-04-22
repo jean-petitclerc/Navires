@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Liste des Personnes{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h1>Liste des Personnes</h1>
+    </div>
+    <p>
+        <a href="{% url 'nnf:ajout_personne' %}" class="btn btn-primary">Ajouter une personne</a>
+        <table id="table"
+               data-toggle="table"
+               data-search="true"
+               data-show-columns="true"
+               data-pagination="true"
+               data-page-size="25"
+               data-page-list="[25, 50, 100, 250, 500, all]"
+               data-response-handler="responseHandler">
+            <thead>
+                <tr>
+                    <th data-field="nom" data-sortable="true">Nom</th>
+                    <th data-field="naissance" data-sortable="true">Naissance</th>
+                    <th data-field="deces" data-sortable="true">Décès</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in personnes %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'nnf:detail_personne' p.id %}">{{ p.nom }}, {{ p.prenom }}</a>
+                        </td>
+                        <td>{% if p.naissance_date %}
+                                {{ p.naissance_date }}
+                            {% elif p.naissance_annee %}
+                                {{ p.naissance_annee }}
+                            {% else %}
+                                Inconnue
+                            {% endif %}
+                        </td>
+                        <td>{% if p.deces_date %}
+                                {{ p.deces_date }}
+                            {% elif p.deces_annee %}
+                                {{ p.deces_annee }}
+                            {% else %}
+                                Inconnue
+                            {% endif %}
+                        </td>
+                        <td class="text-center">
+                            <a href="{% url 'nnf:modifier_personne' p.id %}"
+                               class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Modifier">
+                                <span class="bi-pencil"></span>
+                            </a>
+                            <a href="{% url 'nnf:supprimer_personne' p.id %}"
+                               class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Supprimer">
+                               <span class="bi-trash"></span>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </p>
+</div>
+{% endblock %}

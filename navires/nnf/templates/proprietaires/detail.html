@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Propriétaire - Vue détaillée{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="page-header">
+            <h1>Vue détaillée: {{ proprietaire.nom }}</h1>
+        </div>
+        <p>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">Attribut</th>
+                        <th scope="col">Valeur</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Nom</td>
+                        <td>{{ proprietaire.nom }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        <hr />
+        <h3>Navires</h3>
+        <ul class="list-group">
+            {% if navires %}
+                {% for n in navires %}
+                <li class="list-group-item pb-3 pt-3">
+                    <h5 class="card-title">
+                    {{ n.nom }}
+                    </h5>
+                    <p class="card-text">
+                        Armateur: {{ n.armateur.nom }}
+                    <n>
+                        Tonnage: {{ n.tonnage }}
+                    </p>
+                </li>
+                {% endfor %}
+            {% else %}
+                Pas de navire.
+            {% endif %}
+        </ul>
+        <hr />
+        </p>
+        <p>
+            <a href="{% url 'nnf:liste_proprietaires' %}" class="btn btn-primary">Retour à la liste</a>
+        </p>
+    </div>
+{% endblock %}

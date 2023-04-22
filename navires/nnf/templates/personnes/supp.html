@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Supprimer une personne{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="page-header">
+            <h1>Supprimer la personne {{ personne.nom }}</h1>
+        </div>
+        <div class="module">
+            <form action="" method="post">
+                {% csrf_token %}
+                <p>Es-tu sûr de vouloir supprimer cette personne?</p>
+                <p>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col">Attribut</th>
+                                <th scope="col">Valeur</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Nom</td>
+                                <td>{{ personne.nom }}</td>
+                            </tr>
+                            <tr>
+                                <td>Prénom</td>
+                                <td>{{ personne.prenom }}</td>
+                            </tr>
+                            <tr>
+                                <td>Naissance</td>
+                                <td>
+                                    {% if p.naissance_date %}
+                                        {{ p.naissance_date }}
+                                    {% elif p.naissance_annee %}
+                                        {{ p.naissance_annee }}
+                                    {% else %}
+                                        Inconnue
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Décès</td>
+                                <td>
+                                    {% if p.deces_date %}
+                                        {{ p.deces_date }}
+                                    {% elif p.deces_annee %}
+                                        {{ p.deces_annee }}
+                                    {% else %}
+                                        Inconnue
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </p>
+                <p>
+                    <button type="submit" class="btn btn-primary">Oui</button>
+                    <a href="{% url 'nnf:liste_personnes' %}" class="btn btn-primary">Non</a>
+                </p>
+            </form>
+        </div>
+    </div>
+{% endblock %}

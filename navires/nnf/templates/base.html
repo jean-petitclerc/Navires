@@ -1,0 +1,84 @@
+<!doctype html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>{% block title %}Base{% endblock %}</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+        <link href="https://unpkg.com/bootstrap-table@1.21.4/dist/bootstrap-table.min.css" rel="stylesheet">
+    </head>
+    <body>
+        {% block navbar %}
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#">Navires de Nouvelle-France</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#">Accueil</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Navires</a>
+                                <ul class="dropdown-menu dropdown-menu-dark">
+                                    <li><a class="dropdown-item" href="{% url 'nnf:liste_navires' %}">Tous les navires</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'nnf:liste_armateurs' %}">Tous les armateurs</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'nnf:liste_proprietaires' %}">Tous les propriétaires</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Personnes</a>
+                                <ul class="dropdown-menu dropdown-menu-dark">
+                                    <li><a class="dropdown-item" href="{% url 'nnf:liste_personnes' %}">Toutes les personnes</a></li>
+                                </ul>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        {% endblock %}
+        {% if messages %}
+            <ul class="messages">
+            {% for message in messages %}
+                {% if message.tags == "error" %}
+                    <div class="alert alert-danger mt-3" role="alert">
+                        {{ message|safe }}
+                    </div>
+                {% elif message.tags == "warning" %}
+                    <div class="alert alert-warning mt-3" role="alert">
+                        {{ message|safe }}
+                    </div>
+                {% elif message.tags == "info" %}
+                    <div class="alert alert-info mt-3" role="alert">
+                        {{ message|safe }}
+                    </div>
+                {% elif message.tags == "success" %}
+                    <div class="alert alert-success mt-3" role="alert">
+                        {{ message|safe }}
+                    </div>
+                {% else %}
+                    <div class="alert alert-debug mt-3" role="alert">
+                        {{ message|safe }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+            </ul>
+        {% endif %}
+        <div id="content">
+            {% block content %}
+            {% endblock content %}
+        </div>
+        <footer class="text-center text-lg-start bg-light text-muted mt-4">
+            <div class="text-center p-4">Fin de la page</div>
+        </footer>
+        <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
+        </script>
+        <script src="https://unpkg.com/bootstrap-table@1.21.4/dist/bootstrap-table.min.js"></script>
+    </body>
+</html>

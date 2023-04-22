@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block title %}Personne - Vue détaillée{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="page-header">
+            <h1>Vue détaillée: {{ personne.nom }}, {{ personne.prenom }}</h1>
+        </div>
+        <p>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">Attribut</th>
+                        <th scope="col">Valeur</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Nom</td>
+                        <td>{{ personne.nom }}</td>
+                    </tr>
+                    <tr>
+                        <td>Prénom</td>
+                        <td>{{ personne.prenom }}</td>
+                    </tr>
+                    <tr>
+                        <td>Titre</td>
+                        <td>{% if personne.titre %} {{ personne.titre }} {% else %} Inconnu {% endif %}</td>
+                    </tr>
+                    <tr>
+                        <td>Naissance</td>
+                        <td>
+                            {% if personne.naissance_date %}
+                                {{ personne.naissance_date }}
+                            {% elif personne.naissance_annee %}
+                                {{ personne.naissance_annee }}
+                            {% else %}
+                                Inconnue
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Lieu de naissance</td>
+                        <td>
+                            {% if personne.naissance_lieu %}
+                                {{ personne.naissance_lieu }}
+                            {% else %}
+                                Inconnu
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Décès</td>
+                        <td>
+                            {% if personne.deces_date %}
+                                {{ personne.deces_date }}
+                            {% elif personne.deces_annee %}
+                                {{ personne.deces_annee }}
+                            {% else %}
+                                Inconnu
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Lieu de décès</td>
+                        <td>
+                            {% if personne.deces_lieu %}
+                                {{ personne.deces_lieu }}
+                            {% else %}
+                                Inconnu
+                            {% endif %}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            {% if personne.note_biographique %}
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">Notes biographiques</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ personne.note_biographique }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            {% endif %}
+        <hr />
+        <h3>Voyages</h3>
+        <ul class="list-group">
+            {% if p.voyages %}
+                {% for v in p.voyages %}
+                <li class="list-group-item pb-3 pt-3">
+                    <h5 class="card-title">
+                    &nbsp;
+                    </h5>
+                    <p class="card-text">
+                        <a href="#" target="_blank" rel="noopener noreferrer">{{ p.link_url }}</a>
+                    </p>
+                </li>
+                {% endfor %}
+            {% else %}
+                Pas de voyage.
+            {% endif %}
+        </ul>
+        <hr />
+        </p>
+        <p>
+            <a href="{% url 'nnf:liste_personnes' %}" class="btn btn-primary">Retour à la liste</a>
+        </p>
+    </div>
+{% endblock %}
