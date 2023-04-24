@@ -29,16 +29,37 @@
                                 <tr>
                                     <th scope="col">Départ</th>
                                     <th scope="col">Arrivée</th>
+                                    <th scope="col">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for t in traversees %}
                                     <tr>
                                         <td>
-                                            {{ t.depart_annee }}&nbsp{{ t.depart_lieu }}
+                                            {{ t.depart_annee }}
+                                            {% if t.depart_lieu %}
+                                                {{ t.depart_lieu }}
+                                            {% else %}
+                                                d'un lieu inconnu
+                                            {% endif %}
                                         </td>
                                         <td>
-                                            {{ t.arrivee_annee }}&nbsp{{ t.arrivee_lieu }}
+                                            {{ t.arrivee_annee }}
+                                            {% if t.arrivee_lieu %}
+                                                {{ t.arrivee_lieu }}
+                                            {% else %}
+                                                vers un lieu inconnu
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <a href="{% url 'nnf:modifier_traversee' t.id %}"
+                                               class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Modifier">
+                                               <span class="bi-pencil"></span>
+                                            </a>
+                                            <a href="{% url 'nnf:supprimer_traversee' t.id %}"
+                                               class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Supprimer">
+                                               <span class="bi-trash"></span>
+                                            </a>
                                         </td>
                                     </tr>
                                 {% endfor %}
@@ -47,6 +68,7 @@
                     {% else %}
                         <p>Pas de traversée.</p>
                     {% endif %}
+                    <a href="{% url 'nnf:ajout_traversee' navire.id %}" class="btn btn-primary">Ajouter une traversée</a>
                 </div>
             </div>
         </div>

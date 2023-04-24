@@ -24,4 +24,7 @@ urlpatterns = [
     path('armateur/ajout', views.ajout_armateur, name='ajout_armateur'),
     path('armateur/modif/<int:id>', views.modifier_armateur, name='modifier_armateur'),
     path('armateur/supp/<int:id>', views.supprimer_armateur, name='supprimer_armateur'),
+    path('traversee/<int:navire_id>', views.ajout_traversee, name='ajout_traversee'),
+    path('traversee/modif/<int:id>', views.modifier_traversee, name='modifier_traversee'),
+    path('traversee/supp/<int:id>', views.supprimer_traversee, name='supprimer_traversee'),
 ]

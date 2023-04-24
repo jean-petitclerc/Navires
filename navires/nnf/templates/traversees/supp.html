@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Supprimer une traversée{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="page-header">
+            <h1>Supprimer cette traversée du navire {{ traversee.navire.nom }}</h1>
+        </div>
+        <div class="module">
+            <form action="" method="post">
+                {% csrf_token %}
+                <p>Es-tu sûr de vouloir supprimer cette traversée?</p>
+                <p>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col">Attribut</th>
+                                <th scope="col">Valeur</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Année</td>
+                                <td>{{ traversee.depart_annee }}</td>
+                            </tr>
+                            <tr>
+                                <td>Départ de</td>
+                                {% if traversee.depart_lieu %}
+                                    <td>{{ traversee.depart_lieu }}</td>
+                                {% else %}
+                                    <td>Inconnu</td>
+                                {% endif %}
+                            </tr>
+                        </tbody>
+                    </table>
+                </p>
+                <p>
+                    <button type="submit" class="btn btn-primary">Oui</button>
+                    <a href="{% url 'nnf:modifier_navire' traversee.navire.id %}" class="btn btn-primary">Non</a>
+                </p>
+            </form>
+        </div>
+    </div>
+{% endblock %}

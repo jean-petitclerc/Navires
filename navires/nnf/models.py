@@ -37,6 +37,9 @@ class Personne(models.Model):
     deces_lieu = models.CharField(max_length=100, null=True, blank=True, default='')
     note_biographique = models.CharField(max_length=2048, null=True, blank=True, default='')
 
+    def __str__(self):
+        return self.nom + ', ' + self.prenom
+
 
 class Traversee(models.Model):
     navire = models.ForeignKey(Navire, on_delete=models.RESTRICT, related_name='a_fait', null=False)

@@ -3,8 +3,8 @@ from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.core.paginator import Paginator
 from django.contrib import messages
 
-from .models import Navire, Personne, Proprietaire, Armateur
-from .forms import FormAjoutNavire, FormModifNavire, FormAjoutPersonne, FormModifPersonne, FormAjoutProprietaire, FormModifProprietaire, FormAjoutArmateur, FormModifArmateur,FormConfirmation
+from .models import Navire, Personne, Proprietaire, Armateur, Traversee
+from .forms import (FormNavire, FormPersonne, FormProprietaire, FormArmateur, FormTraversee, FormConfirmation)
 
 import datetime
 
@@ -41,30 +41,31 @@ def detail_navire(request, id):
 
 def ajout_navire(request):
     if request.method == 'GET':
-        form = FormAjoutNavire()
+        form = FormNavire()
         return render(request, 'navires/ajout.html',
                     {'form': form})
     else:
         try:
-            form = FormAjoutNavire(request.POST)
+            form = FormNavire(request.POST)
             navire = form.save(commit=False)
             navire.save()
             messages.success(request, 'Le navire a été ajouté.')
             return redirect('nnf:liste_navires')
         except ValueError:
             return render(request, 'navires/ajout.html',
-                          {'form':FormAjoutNavire(), 'error':'Données invalides.'})
+                          {'form':FormNavire(), 'error':'Données invalides.'})
 
 
 def modifier_navire(request, id):
     navire = get_object_or_404(Navire, id=id)
+    traversees = Traversee.objects.filter(navire_id=id)
     if request.method == 'GET':
-        form = FormModifNavire(instance=navire)
+        form = FormNavire(instance=navire)
         return render(request, 'navires/modif.html',
-                    {'form':form, 'navire': navire})
+                    {'form':form, 'navire': navire, 'traversees': traversees})
     else:
         try:
-            form = FormModifNavire(request.POST, instance=navire)
+            form = FormNavire(request.POST, instance=navire)
             navire = form.save(commit=False)
             navire.save()
             messages.success(request, 'Le navire a été modifié.')
@@ -117,11 +118,11 @@ def ajout_personne(request):
     if request.method == 'GET':
         print("get")
         return render(request, 'personnes/ajout.html',
-                      {'form':FormAjoutPersonne})
+                      {'form':FormPersonne})
     else:
         print("post")
         try:
-            form = FormAjoutPersonne(request.POST)
+            form = FormPersonne(request.POST)
             p = form.save(commit=False)
             p.naissance_date = creer_date(p.naissance_annee, p.naissance_mois, p.naissance_jour)
             p.deces_date = creer_date(p.deces_annee, p.deces_mois, p.deces_jour)
@@ -130,18 +131,18 @@ def ajout_personne(request):
             return redirect('nnf:liste_personnes')
         except ValueError:
             return render(request, 'personnes/ajout.html',
-                          {'form':FormAjoutPersonne(), 'error':'Données invalides.'})
+                          {'form':FormPersonne(), 'error':'Données invalides.'})
 
 
 def modifier_personne(request, id):
     p = get_object_or_404(Personne, id=id)
     if request.method == 'GET':
-        form = FormModifPersonne(instance=p)
+        form = FormPersonne(instance=p)
         return render(request, 'personnes/modif.html',
                     {'form':form, 'personne': p})
     else:
         try:
-            form = FormModifPersonne(request.POST, instance=p)
+            form = FormPersonne(request.POST, instance=p)
             p = form.save(commit=False)
             p.naissance_date = creer_date(p.naissance_annee, p.naissance_mois, p.naissance_jour)
             p.deces_date = creer_date(p.deces_annee, p.deces_mois, p.deces_jour)
@@ -197,28 +198,28 @@ def detail_proprietaire(request, id):
 def ajout_proprietaire(request):
     if request.method == 'GET':
         return render(request, 'proprietaires/ajout.html',
-                    {'form':FormAjoutProprietaire})
+                    {'form':FormProprietaire})
     else:
         try:
-            form = FormAjoutProprietaire(request.POST)
+            form = FormProprietaire(request.POST)
             proprietaire = form.save(commit=False)
             proprietaire.save()
             messages.success(request, 'Le propriétaire a été ajouté.')
             return redirect('nnf:liste_proprietaires')
         except ValueError:
             return render(request, 'proprietaire/ajout.html',
-                          {'form':FormAjoutProprietaire(), 'error':'Données invalides.'})
+                          {'form':FormProprietaire(), 'error':'Données invalides.'})
 
 
 def modifier_proprietaire(request, id):
     proprietaire = get_object_or_404(Proprietaire, id=id)
     if request.method == 'GET':
-        form = FormModifProprietaire(instance=proprietaire)
+        form = FormProprietaire(instance=proprietaire)
         return render(request, 'proprietaires/modif.html',
                     {'form':form, 'proprietaire': proprietaire})
     else:
         try:
-            form = FormModifProprietaire(request.POST, instance=proprietaire)
+            form = FormProprietaire(request.POST, instance=proprietaire)
             proprietaire = form.save(commit=False)
             proprietaire.save()
             messages.success(request, 'Le propriétaire a été modifié.')
@@ -271,28 +272,28 @@ def detail_armateur(request, id):
 def ajout_armateur(request):
     if request.method == 'GET':
         return render(request, 'armateurs/ajout.html',
-                    {'form':FormAjoutArmateur})
+                    {'form':FormArmateur})
     else:
         try:
-            form = FormAjoutArmateur(request.POST)
+            form = FormArmateur(request.POST)
             armateur = form.save(commit=False)
             armateur.save()
             messages.success(request, "L'armateur a été ajouté.")
             return redirect('nnf:liste_armateurs')
         except ValueError:
             return render(request, 'armateur/ajout.html',
-                          {'form':FormAjoutArmateur(), 'error':'Données invalides.'})
+                          {'form':FormArmateur(), 'error':'Données invalides.'})
 
 
 def modifier_armateur(request, id):
     armateur = get_object_or_404(Armateur, id=id)
     if request.method == 'GET':
-        form = FormModifArmateur(instance=armateur)
+        form = FormArmateur(instance=armateur)
         return render(request, 'armateurs/modif.html',
                     {'form':form, 'armateur': armateur})
     else:
         try:
-            form = FormModifArmateur(request.POST, instance=armateur)
+            form = FormArmateur(request.POST, instance=armateur)
             armateur = form.save(commit=False)
             armateur.save()
             messages.success(request, "L'armateur a été modifié.")
@@ -321,4 +322,64 @@ def supprimer_armateur(request, id):
             raise Http404("L'armateur n'a pas été retrouvé.")
         except ValueError:
             return render(request, 'armateurs/supp.html',
+                          {'form':FormConfirmation(), 'error':'Données invalides.'})
+
+
+def ajout_traversee(request, navire_id):
+    navire = get_object_or_404(Navire, id=navire_id)
+    if request.method == 'GET':
+        form = FormTraversee()
+        return render(request, 'traversees/ajout.html',
+                    {'form': form, 'navire': navire})
+    else:
+        try:
+            form = FormTraversee(request.POST)
+            traversee = form.save(commit=False)
+            traversee.navire_id = navire.id
+            traversee.save()
+            messages.success(request, 'La traversée a été ajoutée.')
+            return redirect('nnf:modifier_navire', navire_id)
+        except ValueError:
+            return render(request, 'traversees/ajout.html',
+                          {'form':FormNavire(), 'navire': navire, 'error':'Données invalides.'})
+
+
+def modifier_traversee(request, id):
+    traversee = get_object_or_404(Traversee, id=id)
+    if request.method == 'GET':
+        form = FormTraversee(instance=traversee)
+        return render(request, 'traversees/modif.html',
+                    {'form':form, 'traversee': traversee})
+    else:
+        try:
+            form = FormTraversee(request.POST, instance=traversee)
+            traversee = form.save(commit=False)
+            traversee.save()
+            messages.success(request, 'La traversée a été modifiée.')
+            return redirect('nnf:modifier_navire', traversee.navire_id)
+        except ValueError:
+            return render(request, 'traversees/modif.html',
+                          {'form':form, 'error':'Données invalides.'})
+
+
+def supprimer_traversee(request, id):
+    if request.method == 'GET':
+        try:
+            traversee = Traversee.objects.get(id=id)
+            return render(request, 'traversees/supp.html',
+                          {'form':FormConfirmation, 'traversee': traversee})
+        except Traversee.DoesNotExist:
+            raise Http404("La traversée n'a pas été retrouvée.")
+    else:
+        try:
+            form = FormConfirmation(request.POST)
+            traversee = Traversee.objects.get(id=id)
+            navire_id = traversee.navire_id
+            traversee.delete()
+            messages.success(request, "La traversée a été supprimée.")
+            return redirect('nnf:modifier_navire', navire_id)
+        except Traversee.DoesNotExist:
+            raise Http404("La traversée n'a pas été retrouvée.")
+        except ValueError:
+            return render(request, 'traversees/supp.html',
                           {'form':FormConfirmation(), 'error':'Données invalides.'})
