@@ -90,14 +90,14 @@
         <hr />
         <h3>Voyages</h3>
         <ul class="list-group">
-            {% if p.voyages %}
-                {% for v in p.voyages %}
+            {% if voyages %}
+                {% for v in voyages %}
                 <li class="list-group-item pb-3 pt-3">
                     <h5 class="card-title">
                     &nbsp;
                     </h5>
                     <p class="card-text">
-                        <a href="#" target="_blank" rel="noopener noreferrer">{{ p.link_url }}</a>
+                        <a href="#" target="_blank" rel="noopener noreferrer">{{ v.id }}</a>
                     </p>
                 </li>
                 {% endfor %}

@@ -48,19 +48,53 @@
         <hr />
         <h3>Traversées</h3>
         <ul class="list-group">
-            {% if links %}
-                {% for t in traversees %}
-                <li class="list-group-item pb-3 pt-3">
-                    <h5 class="card-title">
-                    {{ l.link_name }}
-                    </h5>
-                    <p class="card-text">
-                        <a href="#" target="_blank" rel="noopener noreferrer">{{ l.link_url }}</a>
-                    </p>
-                </li>
-                {% endfor %}
+            {% if traversees %}
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">Maître</th>
+                            <th scope="col">Origine</th>
+                            <th scope="col">Date de départ</th>
+                            <th scope="col">Destination</th>
+                            <th scope="col">Date de d'arrivée</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for t in traversees %}
+                            <tr>
+                                <td>
+                                    {% if t.maitre %} {{ t.maitre.nom }}, {{ t.maitre.prenom }} {% else %} Inconnu {% endif %}
+                                </td>
+                                <td>
+                                    {% if t.depart_lieu %} {{ t.depart_lieu }} {% else %} Inconnue {% endif %}
+                                </td>
+                                <td>
+                                    {% if t.depart_date %}
+                                        {{ t.depart_date }}
+                                    {% elif t.depart_annee %}
+                                        {{ t.depart_annee }}
+                                    {% else %}
+                                        Inconnue
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if t.arrivee_lieu %} {{ t.arrivee_lieu }} {% else %} Inconnue {% endif %}
+                                </td>
+                                <td>
+                                    {% if t.arrivee_date %}
+                                        {{ t.arrivee_date }}
+                                    {% elif t.arrivee_annee %}
+                                        {{ t.arrivee_annee }}
+                                    {% else %}
+                                        Inconnue
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             {% else %}
-                Pas de liens.
+                Pas de traversée.
             {% endif %}
         </ul>
         <hr />

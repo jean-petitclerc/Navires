@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Liste des traversées{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h1>Liste des Traversées</h1>
+    </div>
+    <p>
+        <table id="table"
+               data-toggle="table"
+               data-search="true"
+               data-show-columns="true"
+               data-pagination="true"
+               data-page-size="25"
+               data-page-list="[25, 50, 100, 250, 500, all]"
+               data-response-handler="responseHandler">
+            <thead>
+                <tr>
+                    <th data-field="linenum" data-sortable="true">#</th>
+                    <th data-field="annee" data-sortable="true">Année</th>
+                    <th data-field="navire" data-sortable="true">Navire</th>
+                    <th data-field="origine" data-sortable="true">Origine</th>
+                    <th data-field="destination" data-sortable="true">Destination</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for t in traversees %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'nnf:detail_traversee' t.id %}">{{ forloop.counter }}</a>
+                        </td>
+                        <td>
+                            {{ t.depart_annee }}
+                        </td>
+                        <td>{% if t.navire %}
+                                {{ t.navire.nom }}
+                            {% else %}
+                                Inconnu
+                            {% endif %}
+                        </td>
+                        <td>{% if t.depart_lieu %}
+                                {{ t.depart_lieu }}
+                            {% else %}
+                                Inconnu
+                            {% endif %}
+                        </td>
+                        <td>{% if t.arrivee_lieu %}
+                                {{ t.arrivee_lieu }}
+                            {% else %}
+                                Inconnue
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </p>
+</div>
+{% endblock %}

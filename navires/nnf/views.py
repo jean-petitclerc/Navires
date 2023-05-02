@@ -3,8 +3,8 @@ from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.core.paginator import Paginator
 from django.contrib import messages
 
-from .models import Navire, Personne, Proprietaire, Armateur, Traversee
-from .forms import (FormNavire, FormPersonne, FormProprietaire, FormArmateur, FormTraversee, FormConfirmation)
+from .models import Navire, Personne, Proprietaire, Armateur, Traversee, Voyage
+from .forms import (FormNavire, FormPersonne, FormProprietaire, FormArmateur, FormTraversee, FormVoyage, FormConfirmation)
 
 import datetime
 
@@ -32,11 +32,12 @@ def liste_navires(request):
 def detail_navire(request, id):
     try:
         navire = Navire.objects.get(id=id)
+        traversees = Traversee.objects.filter(navire_id=navire.id)
     except Navire.DoesNotExist:
         raise Http404("Le navire n'est pas retrouvé.")
     return render(request,
                   'navires/detail.html',
-                  {'navire': navire})
+                  {'navire': navire, 'traversees': traversees})
 
 
 def ajout_navire(request):
@@ -107,11 +108,12 @@ def liste_personnes(request):
 def detail_personne(request, id):
     try:
         personne = Personne.objects.get(id=id)
+        voyages = Voyage.objects.filter(personne_id=personne.id)
     except Personne.DoesNotExist:
         raise Http404("La personne n'est pas retrouvée.")
     return render(request,
                   'personnes/detail.html',
-                  {'personne': personne})
+                  {'personne': personne, 'voyages': voyages})
 
 
 def ajout_personne(request):
@@ -152,6 +154,14 @@ def modifier_personne(request, id):
         except ValueError:
             return render(request, 'personnes/modif.html',
                           {'form':form, 'error':'Données invalides.'})
+
+
+def modifier_personne_alt(request, id):
+    personne = get_object_or_404(Personne, id=id)
+    voyages = Voyage.objects.filter(personne_id=id)
+    return render(request,
+                 'personnes/modif2.html',
+                 {'personne': personne, 'voyages': voyages})
 
 
 def supprimer_personne(request, id):
@@ -325,6 +335,23 @@ def supprimer_armateur(request, id):
                           {'form':FormConfirmation(), 'error':'Données invalides.'})
 
 
+def liste_traversees(request):
+    traversees = Traversee.objects.all().order_by('depart_annee')
+    return render(request,
+                 'traversees/liste.html',
+                 {'traversees': traversees})
+
+
+def detail_traversee(request, id):
+    try:
+        traversee = Traversee.objects.get(id=id)
+    except Traversee.DoesNotExist:
+        raise Http404("La traversée n'est pas retrouvée.")
+    return render(request,
+                  'traversees/detail.html',
+                  {'traversee': traversee})
+
+
 def ajout_traversee(request, navire_id):
     navire = get_object_or_404(Navire, id=navire_id)
     if request.method == 'GET':
@@ -382,4 +409,71 @@ def supprimer_traversee(request, id):
             raise Http404("La traversée n'a pas été retrouvée.")
         except ValueError:
             return render(request, 'traversees/supp.html',
+                          {'form':FormConfirmation(), 'error':'Données invalides.'})
+
+
+def ajout_voyage(request, personne_id):
+    personne = get_object_or_404(Personne, id=personne_id)
+    if request.method == 'GET':
+        voyage = Voyage.objects.filter(personne_id=personne.id).order_by('-sequence').first()
+        next_voyage_seq = voyage.sequence + 1
+        form = FormVoyage()
+        form.fields['sequence'].initial = next_voyage_seq
+        return render(request, 'voyages/ajout.html',
+                    {'form': form, 'personne': personne})
+    else:
+        try:
+            form = FormVoyage(request.POST)
+            voyage = form.save(commit=False)
+            voyage.personne_id = personne.id
+            voyage.save()
+            messages.success(request, 'Le voyage a été ajouté.')
+            return redirect('nnf:modifier_personne_alt', personne_id)
+        except ValueError:
+            return render(request, 'voyages/ajout.html',
+                          {'form':FormVoyage(), 'personne': personne, 'error':'Données invalides.'})
+
+
+def modifier_voyage(request, id):
+    voyage = get_object_or_404(Voyage, id=id)
+    if voyage:
+        print("voage")
+    else:
+        print("pas voyage")
+    if request.method == 'GET':
+        form = FormVoyage(instance=voyage)
+        return render(request, 'voyages/modif.html',
+                    {'form':form, 'voyage': voyage})
+    else:
+        try:
+            form = FormVoyage(request.POST, instance=voyage)
+            voyage = form.save(commit=False)
+            voyage.save()
+            messages.success(request, 'Le voyage a été modifié.')
+            return redirect('nnf:modifier_personne_alt', voyage.personne.id)
+        except ValueError:
+            return render(request, 'voyages/modif.html',
+                          {'form':form, 'error':'Données invalides.'})
+
+
+def supprimer_voyage(request, id):
+    if request.method == 'GET':
+        try:
+            voyage = Voyage.objects.get(id=id)
+            return render(request, 'voyages/supp.html',
+                          {'form':FormConfirmation, 'voyage': voyage})
+        except Voyage.DoesNotExist:
+            raise Http404("Le voyage n'a pas été retrouvé.")
+    else:
+        try:
+            form = FormConfirmation(request.POST)
+            voyage = Voyage.objects.get(id=id)
+            personne_id = voyage.personne_id
+            voyage.delete()
+            messages.success(request, "La voyage a été supprimé.")
+            return redirect('nnf:modifier_personne_alt', personne_id)
+        except Voyage.DoesNotExist:
+            raise Http404("Le voyage n'a pas été retrouvé.")
+        except ValueError:
+            return render(request, 'voyages/supp.html',
                           {'form':FormConfirmation(), 'error':'Données invalides.'})

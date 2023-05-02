@@ -59,3 +59,15 @@ class Traversee(models.Model):
     notes_equipage_passagers = models.CharField(max_length=2048, null=True, blank=True, default='')
     observations = models.CharField(max_length=2048, null=True, blank=True, default='')
 
+    def __str__(self):
+        return self.navire.nom + '-' + str(self.depart_annee) + '-' + self.depart_lieu
+
+
+class Voyage(models.Model):
+    personne = models.ForeignKey(Personne, on_delete=models.RESTRICT, related_name='voyage_effectue', null=False)
+    annee = models.SmallIntegerField(null=True, blank=True, default='')
+    sequence = models.SmallIntegerField(null=False, default=1)
+    destination = models.CharField(max_length=100, null=True, blank=True, default='')
+    navire_nom = models.CharField(max_length=100, null=True, blank=True, default='')
+    traversee = models.ForeignKey(Traversee, on_delete=models.RESTRICT, related_name='liste_passagers', null=True, default=None)
+    uk = models.UniqueConstraint(name='voyage_uk', fields=["personne_id", "annee", "sequence"])

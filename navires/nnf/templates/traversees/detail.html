@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}Traversée - Vue détaillée{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="page-header">
+            <h1>Vue détaillée: {{ traversee.depart_annee }}, {{ traversee.arrivee_lieu }}</h1>
+        </div>
+        <p>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">Attribut</th>
+                        <th scope="col">Valeur</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Navire</td>
+                        {% if traversee.navire %}
+                            <td>{{ traversee.navire.nom }}</td>
+                        {% else %}
+                            <td>Inconnu</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <td>Maître</td>
+                        {% if traversee.maitre %}
+                            <td>{{ traversee.maitre.nom }}, {{ traversee.maitre.prenom }}</td>
+                        {% else %}
+                            <td>Inconnu</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <td>Origine</td>
+                        {% if traversee.depart_lieu %}
+                            <td>{{ traversee.depart_lieu }}</td>
+                        {% else %}
+                            <td>Inconnue</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <td>Date de départ</td>
+                        <td>
+                            {% if traversee.depart_date %}
+                                {{ traversee.depart_date }}
+                            {% elif traversee.depart_annee %}
+                                {{ traversee.depart_annee }}
+                            {% else %}
+                                Inconnue
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Destination</td>
+                        {% if traversee.arrivee_lieu %}
+                            <td>{{ traversee.arrivee_lieu }}</td>
+                        {% else %}
+                            <td>Inconnue</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <td>Date d'arrivée</td>
+                        <td>
+                            {% if traversee.arrivee_date %}
+                                {{ traversee.arrivee_date }}
+                            {% elif traversee.arrivee_annee %}
+                                {{ traversee.arrivee_annee }}
+                            {% else %}
+                                Inconnue
+                            {% endif %}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        <hr />
+        <h3>Passagers</h3>
+        <ul class="list-group">
+            {% if t.passagers %}
+                {% for p in t.passagers %}
+                <li class="list-group-item pb-3 pt-3">
+                    <h5 class="card-title">
+                    &nbsp;
+                    </h5>
+                    <p class="card-text">
+                        <a href="#" target="_blank" rel="noopener noreferrer">{{ p.link_url }}</a>
+                    </p>
+                </li>
+                {% endfor %}
+            {% else %}
+                Pas de passagers.
+            {% endif %}
+        </ul>
+        <hr />
+        </p>
+        <p>
+            <a href="{% url 'nnf:liste_navires' %}" class="btn btn-primary">Retour à la liste</a>
+        </p>
+    </div>
+{% endblock %}

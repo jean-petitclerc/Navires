@@ -1,6 +1,6 @@
 from django import forms
-from django.forms import Form, ModelForm, Textarea
-from .models import Navire, Personne, Proprietaire, Armateur, Traversee
+from django.forms import Form, ModelForm, Textarea, NumberInput
+from .models import Navire, Personne, Proprietaire, Armateur, Traversee, Voyage
 
 class FormNavire(ModelForm):
     def __init__(self, *args, **kwargs):
@@ -159,7 +159,7 @@ class FormModifArmateur(ModelForm):
 class FormTraversee(ModelForm):
     def __init__(self, *args, **kwargs):
         super(ModelForm, self).__init__(*args, **kwargs)
-        self.fields['maitre'] = forms.ModelChoiceField(queryset=Personne.objects.all().order_by('nom'), empty_label="(Maître inconnu)", required=False )
+        self.fields['maitre'] = forms.ModelChoiceField(queryset=Personne.objects.all().order_by('nom'), empty_label="(Maître inconnu)", required=False)
         self.fields['maitre'].widget.attrs.update({'class': 'form-control'})
         self.fields['objectif'].widget.attrs.update({'class': 'form-control'})
         self.fields['depart_annee'].widget.attrs.update({'class': 'form-control'})
@@ -186,6 +186,26 @@ class FormTraversee(ModelForm):
         widgets = {
             'notes_equipage_passagers': Textarea(attrs={'rows': 8}),
             'observations': Textarea(attrs={'rows': 8}),
+        }
+
+
+class FormVoyage(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ModelForm, self).__init__(*args, **kwargs)
+        self.fields['traversee'] = forms.ModelChoiceField(queryset=Traversee.objects.all(), empty_label="(inconnue)", required=False)
+        self.fields['annee'].widget.attrs.update({'class': 'form-control'})
+        self.fields['sequence'].widget.attrs.update({'class': 'form-control'})
+        self.fields['destination'].widget.attrs.update({'class': 'form-control'})
+        self.fields['navire_nom'].widget.attrs.update({'class': 'form-control'})
+        self.fields['traversee'].widget.attrs.update({'class': 'form-control'})
+
+    class Meta:
+        model = Voyage
+        fields = ['annee','sequence','destination', 'navire_nom', 'traversee']
+        labels = {'annee': ('Année'), 'sequence': ('Séquence'),
+                  'destination': ('Destination'), 'navire_nom': ('Nom du navire'), 'traversee': ('Traversée')}
+        widgets = {
+            'sequence': NumberInput(),
         }
 
 

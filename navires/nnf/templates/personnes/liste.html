@@ -48,7 +48,11 @@
                         </td>
                         <td class="text-center">
                             <a href="{% url 'nnf:modifier_personne' p.id %}"
-                               class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Modifier">
+                               class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Modifier (info de base)">
+                                <span class="bi-pencil"></span>
+                            </a>
+                            <a href="{% url 'nnf:modifier_personne_alt' p.id %}"
+                               class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Modifier (autre)">
                                 <span class="bi-pencil"></span>
                             </a>
                             <a href="{% url 'nnf:supprimer_personne' p.id %}"
