@@ -173,16 +173,19 @@ class FormTraversee(ModelForm):
         self.fields['retour'].widget.attrs.update({'class': 'form-control'})
         self.fields['notes_equipage_passagers'].widget.attrs.update({'class': 'form-control'})
         self.fields['observations'].widget.attrs.update({'class': 'form-control'})
+        self.fields['nb_autres_navires'].widget.attrs.update({'class': 'form-control'})
 
     class Meta:
         model = Traversee
         fields = ['maitre','objectif','depart_annee', 'depart_mois', 'depart_jour', 'depart_lieu',
-                  'arrivee_annee', 'arrivee_mois', 'arrivee_jour', 'arrivee_lieu', 'retour', 'notes_equipage_passagers','observations']
+                  'arrivee_annee', 'arrivee_mois', 'arrivee_jour', 'arrivee_lieu', 'retour',
+                  'notes_equipage_passagers','observations', 'nb_autres_navires']
         labels = {'maitre': ('Maître'), 'objectif': ('Objectif'),
                   'depart_annee': ('Année de départ'), 'depart_mois': ('Mois de départ'), 'depart_jour': ('Jour du départ'),
                   'depart_lieu': ('Lieu de départ'),
                   'arrivee_annee': ("Année d'arrivée"), 'arrivee_mois': ("Mois d'arrivée"), 'arrivee_jour': ("Jour d'arrivée"),
-                  'arrivee_lieu': ("Lieu d'arrivée"), 'retour': ('Retour'), 'notes_equipage_passagers': ("Notes équipage/passagers"), 'observations': ("Observations")}
+                  'arrivee_lieu': ("Lieu d'arrivée"), 'retour': ('Retour'), 'notes_equipage_passagers': ("Notes équipage/passagers"),
+                  'observations': ("Observations"), 'nb_autres_navires': ("Nombre d'autres navires dans l'expédition")}
         widgets = {
             'notes_equipage_passagers': Textarea(attrs={'rows': 8}),
             'observations': Textarea(attrs={'rows': 8}),
@@ -198,12 +201,14 @@ class FormVoyage(ModelForm):
         self.fields['destination'].widget.attrs.update({'class': 'form-control'})
         self.fields['navire_nom'].widget.attrs.update({'class': 'form-control'})
         self.fields['traversee'].widget.attrs.update({'class': 'form-control'})
+        self.fields['role'].widget.attrs.update({'class': 'form-control'})
 
     class Meta:
         model = Voyage
-        fields = ['annee','sequence','destination', 'navire_nom', 'traversee']
+        fields = ['annee','sequence','destination', 'navire_nom', 'traversee', 'role']
         labels = {'annee': ('Année'), 'sequence': ('Séquence'),
-                  'destination': ('Destination'), 'navire_nom': ('Nom du navire'), 'traversee': ('Traversée')}
+                  'destination': ('Destination'), 'navire_nom': ('Nom du navire'),
+                  'traversee': ('Traversée'), 'role': ('Rôle')}
         widgets = {
             'sequence': NumberInput(),
         }

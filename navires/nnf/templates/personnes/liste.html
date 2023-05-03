@@ -28,7 +28,8 @@
                 {% for p in personnes %}
                     <tr>
                         <td>
-                            <a href="{% url 'nnf:detail_personne' p.id %}">{{ p.nom }}, {{ p.prenom }}</a>
+                            {{ p.nom }}, {{ p.prenom }}
+                            {% if p.titre %}&nbsp;({{ p.titre }}){% endif %}
                         </td>
                         <td>{% if p.naissance_date %}
                                 {{ p.naissance_date }}
@@ -47,6 +48,10 @@
                             {% endif %}
                         </td>
                         <td class="text-center">
+                            <a href="{% url 'nnf:detail_personne' p.id %}"
+                               class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Détail">
+                                <span class="bi-eye"></span>
+                            </a>
                             <a href="{% url 'nnf:modifier_personne' p.id %}"
                                class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Modifier (info de base)">
                                 <span class="bi-pencil"></span>

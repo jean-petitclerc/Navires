@@ -23,7 +23,7 @@ def home(request):
 
 
 def liste_navires(request):
-    navires = Navire.objects.all()
+    navires = Navire.objects.all().order_by('nom')
     return render(request,
                  'navires/liste.html',
                  {'navires': navires})
@@ -99,7 +99,7 @@ def supprimer_navire(request, id):
 
 
 def liste_personnes(request):
-    personnes = Personne.objects.all()
+    personnes = Personne.objects.all().order_by('nom', 'prenom')
     return render(request,
                  'personnes/liste.html',
                  {'personnes': personnes})
@@ -187,7 +187,7 @@ def supprimer_personne(request, id):
 
 
 def liste_proprietaires(request):
-    proprietaires = Proprietaire.objects.all()
+    proprietaires = Proprietaire.objects.all().order_by('nom')
     return render(request,
                  'proprietaires/liste.html',
                  {'proprietaires': proprietaires})
@@ -262,7 +262,7 @@ def supprimer_proprietaire(request, id):
 
 
 def liste_armateurs(request):
-    armateurs = Armateur.objects.all()
+    armateurs = Armateur.objects.all().order_by('nom')
     return render(request,
                  'armateurs/liste.html',
                  {'armateurs': armateurs})
@@ -416,7 +416,10 @@ def ajout_voyage(request, personne_id):
     personne = get_object_or_404(Personne, id=personne_id)
     if request.method == 'GET':
         voyage = Voyage.objects.filter(personne_id=personne.id).order_by('-sequence').first()
-        next_voyage_seq = voyage.sequence + 1
+        if voyage:
+            next_voyage_seq = voyage.sequence + 1
+        else:
+            next_voyage_seq = 1
         form = FormVoyage()
         form.fields['sequence'].initial = next_voyage_seq
         return render(request, 'voyages/ajout.html',

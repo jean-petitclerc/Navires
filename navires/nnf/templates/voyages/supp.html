@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Supprimer un voyage{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="page-header">
+            <h1>Supprimer ce voyage pour cette personne: {{ voyage.personne.nom }}, {{ voyage.personne.prenom }}</h1>
+        </div>
+        <div class="module">
+            <form action="" method="post">
+                {% csrf_token %}
+                <p>Es-tu sûr de vouloir supprimer ce voyage?</p>
+                <p>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col">Attribut</th>
+                                <th scope="col">Valeur</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Année</td>
+                                <td>{{ voyage.annee }}</td>
+                            </tr>
+                            <tr>
+                                <td>Séquence</td>
+                                <td>{{ voyage.sequence }}</td>
+                            </tr>
+                            <tr>
+                                <td>Navire</td>
+                                {% if voyage.traversee.navire.nom %}
+                                    <td>Traversée sur: {{ voyage.traversee.navire.nom }}</td>
+                                {% elif voyage.navire %}
+                                    <td>Voyage sur: {{ voyage.navire }}</td>
+                                {% else %}
+                                    <td>Inconnu</td>
+                                {% endif %}
+                            </tr>
+                            <tr>
+                                <td>Destination</td>
+                                {% if voyage.traversee.arrivee_lieu %}
+                                    <td>Traversée vers: {{ voyage.traversee.arrivee_lieu }}</td>
+                                {% elif voyage.destination %}
+                                    <td>Voyage vers: {{ voyage.destination }}</td>
+                                {% else %}
+                                    <td>Inconnue</td>
+                                {% endif %}
+                            </tr>
+`                        </tbody>
+                    </table>
+                </p>
+                <p>
+                    <button type="submit" class="btn btn-primary">Oui</button>
+                    <a href="{% url 'nnf:modifier_personne_alt' voyage.personne.id %}" class="btn btn-primary">Non</a>
+                </p>
+            </form>
+        </div>
+    </div>
+{% endblock %}
