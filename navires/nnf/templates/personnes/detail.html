@@ -89,24 +89,29 @@
             {% endif %}
         <hr />
         <h3>Voyages</h3>
-        <ul class="list-group">
             {% if voyages %}
-                {% for v in voyages %}
-                <li class="list-group-item pb-3 pt-3">
-                    <h5 class="card-title">
-                    &nbsp;
-                    </h5>
-                    <p class="card-text">
-                        <a href="#" target="_blank" rel="noopener noreferrer">{{ v.id }}</a>
-                    </p>
-                </li>
-                {% endfor %}
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Voyage</th>
+                            <th scope="col">Navire</th>
+                            <th scope="col">Rôle</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for v in voyages %}
+                            <tr>
+                                <td>{{ v.annee }}-{{ v.sequence }}</td>
+                                <td>{{ v.traversee.navire.nom }}</td>
+                                <td>{{ v.get_role_display }}</td>
+                            </tr>
+                        {% endfor %}
+                   </tbody>
+                </table>
             {% else %}
                 Pas de voyage.
             {% endif %}
-        </ul>
-        <hr />
-        </p>
+        <hr>
         <p>
             <a href="{% url 'nnf:liste_personnes' %}" class="btn btn-primary">Retour à la liste</a>
         </p>

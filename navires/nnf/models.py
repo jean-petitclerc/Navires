@@ -43,7 +43,6 @@ class Personne(models.Model):
 
 class Traversee(models.Model):
     navire = models.ForeignKey(Navire, on_delete=models.RESTRICT, related_name='a_fait', null=False)
-    maitre = models.ForeignKey(Personne, on_delete=models.RESTRICT, related_name='est_maitre_de', null=True, default=None)
     objectif = models.CharField(max_length=50, null=True, blank=True, default='')
     depart_annee = models.SmallIntegerField(null=True, blank=True, default='')
     depart_mois = models.SmallIntegerField(null=True, blank=True, default='')
@@ -55,9 +54,10 @@ class Traversee(models.Model):
     arrivee_jour  = models.SmallIntegerField(null=True, blank=True, default='')
     arrivee_date = models.DateField(null=True)
     arrivee_lieu = models.CharField(max_length=100, null=True, blank=True, default='')
+    destination = models.CharField(max_length=100, null=True, blank=True, default='')
     retour = models.CharField(max_length=100, null=True, blank=True, default='')
     notes_equipage_passagers = models.CharField(max_length=2048, null=True, blank=True, default='')
-    observations = models.CharField(max_length=2048, null=True, blank=True, default='')
+    observations = models.CharField(max_length=4096, null=True, blank=True, default='')
     nb_autres_navires = models.SmallIntegerField(null=False, default=0)
 
     def __str__(self):

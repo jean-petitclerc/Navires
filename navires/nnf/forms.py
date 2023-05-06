@@ -159,8 +159,6 @@ class FormModifArmateur(ModelForm):
 class FormTraversee(ModelForm):
     def __init__(self, *args, **kwargs):
         super(ModelForm, self).__init__(*args, **kwargs)
-        self.fields['maitre'] = forms.ModelChoiceField(queryset=Personne.objects.all().order_by('nom'), empty_label="(Maître inconnu)", required=False)
-        self.fields['maitre'].widget.attrs.update({'class': 'form-control'})
         self.fields['objectif'].widget.attrs.update({'class': 'form-control'})
         self.fields['depart_annee'].widget.attrs.update({'class': 'form-control'})
         self.fields['depart_mois'].widget.attrs.update({'class': 'form-control'})
@@ -170,6 +168,7 @@ class FormTraversee(ModelForm):
         self.fields['arrivee_mois'].widget.attrs.update({'class': 'form-control'})
         self.fields['arrivee_jour'].widget.attrs.update({'class': 'form-control'})
         self.fields['arrivee_lieu'].widget.attrs.update({'class': 'form-control'})
+        self.fields['destination'].widget.attrs.update({'class': 'form-control'})
         self.fields['retour'].widget.attrs.update({'class': 'form-control'})
         self.fields['notes_equipage_passagers'].widget.attrs.update({'class': 'form-control'})
         self.fields['observations'].widget.attrs.update({'class': 'form-control'})
@@ -177,14 +176,15 @@ class FormTraversee(ModelForm):
 
     class Meta:
         model = Traversee
-        fields = ['maitre','objectif','depart_annee', 'depart_mois', 'depart_jour', 'depart_lieu',
-                  'arrivee_annee', 'arrivee_mois', 'arrivee_jour', 'arrivee_lieu', 'retour',
+        fields = ['objectif','depart_annee', 'depart_mois', 'depart_jour', 'depart_lieu',
+                  'arrivee_annee', 'arrivee_mois', 'arrivee_jour', 'arrivee_lieu', 'destination', 'retour',
                   'notes_equipage_passagers','observations', 'nb_autres_navires']
-        labels = {'maitre': ('Maître'), 'objectif': ('Objectif'),
+        labels = {'objectif': ('Objectif'),
                   'depart_annee': ('Année de départ'), 'depart_mois': ('Mois de départ'), 'depart_jour': ('Jour du départ'),
                   'depart_lieu': ('Lieu de départ'),
                   'arrivee_annee': ("Année d'arrivée"), 'arrivee_mois': ("Mois d'arrivée"), 'arrivee_jour': ("Jour d'arrivée"),
-                  'arrivee_lieu': ("Lieu d'arrivée"), 'retour': ('Retour'), 'notes_equipage_passagers': ("Notes équipage/passagers"),
+                  'arrivee_lieu': ("Lieu d'arrivée"), 'destination': ("Destination"), 'retour': ('Retour'),
+                  'notes_equipage_passagers': ("Notes équipage/passagers"),
                   'observations': ("Observations"), 'nb_autres_navires': ("Nombre d'autres navires dans l'expédition")}
         widgets = {
             'notes_equipage_passagers': Textarea(attrs={'rows': 8}),
