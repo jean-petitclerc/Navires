@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Traversée (autre navire) - Vue détaillée{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="page-header">
+            <h1>Vue détaillée: {{ traversee.depart_annee }}</h1>
+        </div>
+        <p>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">Attribut</th>
+                        <th scope="col">Valeur</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Navire</td>
+                        {% if ant.navire %}
+                            <td>{{ ant.navire.nom }}</td>
+                        {% else %}
+                            <td>Inconnu</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <td>Départ</td>
+                        {% if ant.traversee.depart_lieu %}
+                            <td>{{ ant.traversee.depart_lieu }}</td>
+                        {% else %}
+                            <td>Inconnu</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <td>Date de départ</td>
+                        <td>
+                            {% if ant.traversee.depart_date %}
+                                {{ ant.traversee.depart_date }}
+                            {% elif ant.traversee.depart_annee %}
+                                {{ ant.traversee.depart_annee }}
+                            {% else %}
+                                Inconnue
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Observations</td>
+                        {% if ant.observations %}
+                            <td>{{ ant.observations }}</td>
+                        {% else %}
+                            <td>Aucune</td>
+                        {% endif %}
+                    </tr>
+                </tbody>
+            </table>
+            <hr />
+        </p>
+        <p>
+            <a href="{% url 'nnf:modifier_traversee' ant.traversee.id %}" class="btn btn-primary">Retour</a>
+        </p>
+    </div>
+{% endblock %}

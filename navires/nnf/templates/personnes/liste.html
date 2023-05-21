@@ -30,6 +30,7 @@
                         <td>
                             {{ p.nom }}, {{ p.prenom }}
                             {% if p.titre %}&nbsp;({{ p.titre }}){% endif %}
+                            {% if p.variation_du_nom %}&nbsp;Var.: ({{ p.variation_du_nom }}){% endif %}
                         </td>
                         <td>{% if p.naissance_date %}
                                 {{ p.naissance_date }}

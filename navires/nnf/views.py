@@ -3,8 +3,8 @@ from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.core.paginator import Paginator
 from django.contrib import messages
 
-from .models import Navire, Personne, Proprietaire, Armateur, Traversee, Voyage
-from .forms import (FormNavire, FormPersonne, FormProprietaire, FormArmateur, FormTraversee, FormVoyage, FormConfirmation)
+from .models import Navire, Personne, Proprietaire, Armateur, Traversee, Autre_Navire_Traversee, Voyage
+from .forms import (FormNavire, FormPersonne, FormProprietaire, FormArmateur, FormTraversee, FormVoyage, FormAutreNavireTraversee, FormConfirmation)
 
 import datetime
 
@@ -130,7 +130,7 @@ def ajout_personne(request):
             p.deces_date = creer_date(p.deces_annee, p.deces_mois, p.deces_jour)
             p.save()
             messages.success(request, 'La personne a été ajoutée.')
-            return redirect('nnf:liste_personnes')
+            return redirect('nnf:modifier_personne_alt', p.id)
         except ValueError:
             return render(request, 'personnes/ajout.html',
                           {'form':FormPersonne(), 'error':'Données invalides.'})
@@ -345,11 +345,12 @@ def liste_traversees(request):
 def detail_traversee(request, id):
     try:
         traversee = Traversee.objects.get(id=id)
+        passagers = traversee.liste_passagers.all()
     except Traversee.DoesNotExist:
         raise Http404("La traversée n'est pas retrouvée.")
     return render(request,
                   'traversees/detail.html',
-                  {'traversee': traversee})
+                  {'traversee': traversee, 'passagers': passagers})
 
 
 def ajout_traversee(request, navire_id):
@@ -375,8 +376,9 @@ def modifier_traversee(request, id):
     traversee = get_object_or_404(Traversee, id=id)
     if request.method == 'GET':
         form = FormTraversee(instance=traversee)
+        autres_navires = traversee.comportait_aussi.all()
         return render(request, 'traversees/modif.html',
-                    {'form':form, 'traversee': traversee})
+                    {'form':form, 'traversee': traversee, 'autres_navires': autres_navires})
     else:
         try:
             form = FormTraversee(request.POST, instance=traversee)
@@ -410,6 +412,53 @@ def supprimer_traversee(request, id):
         except ValueError:
             return render(request, 'traversees/supp.html',
                           {'form':FormConfirmation(), 'error':'Données invalides.'})
+
+
+def detail_autre_navire_traversee(request, id):
+    try:
+        ant = Autre_Navire_Traversee.objects.get(id=id)
+    except Autre_Navire_Traversee.DoesNotExist:
+        raise Http404("Le navire de la traversée n'est pas retrouvé.")
+    return render(request,
+                  'autre_navire_traversee/detail.html',
+                  {'ant': ant})
+
+
+def ajout_autre_navire_traversee(request, traversee_id):
+    traversee = get_object_or_404(Traversee, id=traversee_id)
+    if request.method == 'GET':
+        form = FormAutreNavireTraversee()
+        return render(request, 'autre_navire_traversee/ajout.html',
+                    {'form': form, 'traversee': traversee})
+    else:
+        try:
+            form = FormAutreNavireTraversee(request.POST)
+            ant = form.save(commit=False)
+            ant.traversee_id = traversee.id
+            ant.save()
+            messages.success(request, 'Le navire a été ajouté à la traversée.')
+            return redirect('nnf:modifier_traversee', traversee_id)
+        except ValueError:
+            return render(request, 'autre_navire_traversee/ajout.html',
+                          {'form':FormAutreNavireTraversee(), 'traversee': traversee, 'error':'Données invalides.'})
+
+
+def modifier_autre_navire_traversee(request, id):
+    ant = get_object_or_404(Autre_Navire_Traversee, id=id)
+    if request.method == 'GET':
+        form = FormAutreNavireTraversee(instance=ant)
+        return render(request, 'autre_navire_traversee/modif.html',
+                    {'form':form, 'ant': ant})
+    else:
+        try:
+            form = FormAutreNavireTraversee(request.POST, instance=ant)
+            ant = form.save(commit=False)
+            ant.save()
+            messages.success(request, 'Le navire de la traversée a été modifié.')
+            return redirect('nnf:modifier_traversee', ant.traversee.id)
+        except ValueError:
+            return render(request, 'autre_navire_traversee/modif.html',
+                          {'form':form, 'error':'Données invalides.'})
 
 
 def ajout_voyage(request, personne_id):

@@ -23,17 +23,19 @@
                 </tr>
             </thead>
             <tbody>
-                {% for p in armateurs %}
+                {% for a in armateurs %}
                     <tr>
-                        <td>
-                            <a href="{% url 'nnf:detail_armateur' p.id %}">{{ p.nom }}</a>
-                        </td>
+                        <td>{{ a.nom }}</td>
                         <td class="text-center">
-                            <a href="{% url 'nnf:modifier_armateur' p.id %}"
+                            <a href="{% url 'nnf:detail_armateur' a.id %}"
+                               class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Détail">
+                                <span class="bi-eye"></span>
+                            </a>
+                            <a href="{% url 'nnf:modifier_armateur' a.id %}"
                                class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Modifier">
                                 <span class="bi-pencil"></span>
                             </a>
-                            <a href="{% url 'nnf:supprimer_armateur' p.id %}"
+                            <a href="{% url 'nnf:supprimer_armateur' a.id %}"
                                class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Supprimer">
                                <span class="bi-trash"></span>
                             </a>

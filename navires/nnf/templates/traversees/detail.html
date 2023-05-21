@@ -24,11 +24,19 @@
                         {% endif %}
                     </tr>
                     <tr>
-                        <td>Origine</td>
+                        <td>Objectif</td>
+                        {% if traversee.objectif %}
+                            <td>{{ traversee.objectif }}</td>
+                        {% else %}
+                            <td>Inconnu</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <td>Départ</td>
                         {% if traversee.depart_lieu %}
                             <td>{{ traversee.depart_lieu }}</td>
                         {% else %}
-                            <td>Inconnue</td>
+                            <td>Inconnu</td>
                         {% endif %}
                     </tr>
                     <tr>
@@ -44,7 +52,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>Destination</td>
+                        <td>Arrivée</td>
                         {% if traversee.arrivee_lieu %}
                             <td>{{ traversee.arrivee_lieu }}</td>
                         {% else %}
@@ -63,30 +71,69 @@
                             {% endif %}
                         </td>
                     </tr>
+                    <tr>
+                        <td>Destination</td>
+                        {% if traversee.destination %}
+                            <td>{{ traversee.destination }}</td>
+                        {% else %}
+                            <td>Inconnue</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <td>Retour</td>
+                        {% if traversee.retour %}
+                            <td>{{ traversee.retour }}</td>
+                        {% else %}
+                            <td>Inconnu</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <td>Autres navires</td>
+                        <td>{{ traversee.nb_autres_navires }}</td>
+                    </tr>
                 </tbody>
             </table>
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Note équipage/passagers</h3>
+                    <p class="card-text">{{ traversee.notes_equipage_passagers }}</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Observations</h3>
+                    <p class="card-text">{{ traversee.observations}}</p>
+                </div>
+            </div>
         <hr />
         <h3>Passagers</h3>
         <ul class="list-group">
             {% if passagers %}
-                {% for p in passagers %}
-                <li class="list-group-item pb-3 pt-3">
-                    <h5 class="card-title">
-                    &nbsp;
-                    </h5>
-                    <p class="card-text">
-                        <a href="#" target="_blank" rel="noopener noreferrer">{{ p.personne.nom }}</a>
-                    </p>
-                </li>
-                {% endfor %}
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nom</th>
+                            <th scope="col">Rôle</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for p in passagers %}
+                            <tr>
+                                <td>
+                                    <a href="#">{{ p.personne.nom }}, {{ p.personne.prenom }}</a>
+                                </td>
+                                <td>{{ p.get_role_display }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             {% else %}
                 Pas de passagers.
             {% endif %}
         </ul>
-        <hr />
         </p>
         <p>
-            <a href="{% url 'nnf:liste_navires' %}" class="btn btn-primary">Retour à la liste</a>
+            <a href="{% url 'nnf:liste_traversees' %}" class="btn btn-primary">Retour à la liste</a>
         </p>
     </div>
 {% endblock %}

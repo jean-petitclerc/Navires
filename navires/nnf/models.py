@@ -20,10 +20,26 @@ class Navire(models.Model):
     armateur = models.ForeignKey(Armateur, on_delete=models.RESTRICT, related_name='liste_navires', null=True, default=None)
     tonnage = models.IntegerField(null=True, default=0)
 
+    def __str__(self):
+        return self.nom
+
 
 class Personne(models.Model):
+    CHOIX_LISTE = [
+        (0, "Indéfini"),
+        (1, "Administrateurs"),
+        (2, "Émigrants repassés en France"),
+        (3, "Engagés"),
+        (4, "Filles du roi et filles à marier"),
+        (5, "Gens de Mer"),
+        (6, "Marchands"),
+        (7, "Militaires"),
+        (8, "Religieux"),
+        (9, "Volontaires et autres immigrants"),
+    ]
     nom = models.CharField(max_length=50, null=False)
     prenom = models.CharField(max_length=50, null=False)
+    variation_du_nom = models.CharField(max_length=100, null=True, blank=True, default='')
     titre = models.CharField(max_length=50, null=True, blank=True, default='')
     naissance_annee = models.SmallIntegerField(null=True, blank=True, default='')
     naissance_mois = models.SmallIntegerField(null=True, blank=True, default='')
@@ -36,6 +52,7 @@ class Personne(models.Model):
     deces_date = models.DateField(null=True)
     deces_lieu = models.CharField(max_length=100, null=True, blank=True, default='')
     note_biographique = models.CharField(max_length=2048, null=True, blank=True, default='')
+    liste = models.SmallIntegerField(null=False, default=0, choices=CHOIX_LISTE)
 
     def __str__(self):
         return self.nom + ', ' + self.prenom
@@ -64,14 +81,21 @@ class Traversee(models.Model):
         return self.navire.nom + '-' + str(self.depart_annee) + '-' + self.depart_lieu
 
 
+class Autre_Navire_Traversee(models.Model):
+    navire = models.ForeignKey(Navire, on_delete=models.RESTRICT, related_name='etait_dans', null=False)
+    traversee = models.ForeignKey(Traversee, on_delete=models.CASCADE, related_name='comportait_aussi', null=False)
+    observations = models.CharField(max_length=2048, null=True, blank=True, default='')
+
+
 class Voyage(models.Model):
     CHOIX_ROLE = [
         (0, "Indéfini"),
-        (1, "Maître"),
         (2, "Capitaine"),
-        (3, "Pilote"),
-        (4, "Marin"),
+        (6, "Contrôleur"),
+        (1, "Maître"),
+        (4, "Membre d'équipage"),
         (5, "Passager"),
+        (3, "Pilote"),
     ]
     personne = models.ForeignKey(Personne, on_delete=models.RESTRICT, related_name='voyage_effectue', null=False)
     annee = models.SmallIntegerField(null=True, blank=True, default='')

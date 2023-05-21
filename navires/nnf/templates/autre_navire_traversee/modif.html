@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 
-{% block title %}Modifier une personne{% endblock %}
+{% block title %}Modifier un navire d'une traversée{% endblock %}
 {% block content %}
 <div class="container">
     <div class="card mb-3">
         <div class="row g-0">
             <div>
                 <div class="card-body">
-                    <h1 class="card-title">Modifier une personne: {{ personne.nom }}, {{ personne.prenom }}</h1>
+                    <h1 class="card-title">Modifier un navire d'une traversée: {{ ant.navire.nom }}</h1>
                     {% if error %}
                         <div class="alert alert-danger mt-3" role="alert">
                             {{ error }}
@@ -18,8 +18,7 @@
                             {% csrf_token %}
                             {{ form.as_p }}
                             <button type="submit" class="btn btn-primary">Modifier</button>
-                            <a href="{% url 'nnf:modifier_personne_alt' personne.id %}" class="btn btn-primary">Modifier autre info</a>
-                            <a href="{% url 'nnf:liste_personnes' %}" class="btn btn-primary">Retour</a>
+                            <a href="{% url 'nnf:modifier_traversee' ant.traversee.id %}" class="btn btn-primary">Retour</a>
                         </form>
                     </p>
                 </div>

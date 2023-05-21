@@ -20,6 +20,8 @@
                             <thead>
                                 <tr>
                                     <th scope="col">Voyage</th>
+                                    <th scope="col">Navire</th>
+                                    <th scope="col">Rôle</th>
                                     <th scope="col">Destination</th>
                                     <th scope="col">Actions</th>
                                 </tr>
@@ -27,9 +29,9 @@
                             <tbody>
                                 {% for v in voyages %}
                                     <tr>
-                                        <td>
-                                            {{ v.annee }} - {{ v.sequence }}
-                                        </td>
+                                        <td>{{ v.annee }} - {{ v.sequence }}</td>
+                                        <td>{{ v.traversee.navire.nom }}</td>
+                                        <td>{{ v.get_role_display }}</td>
                                         <td>
                                             {% if v.traversee.arrivee_lieu %}
                                                 Traversée vers {{ v.traversee.arrivee_lieu }}
@@ -57,7 +59,8 @@
                         <p>Pas de voyage.</p>
                     {% endif %}
                     <a href="{% url 'nnf:ajout_voyage' personne.id %}" class="btn btn-primary">Ajouter un voyage</a>
-                    <a href="{% url 'nnf:liste_personnes' %}" class="btn btn-primary">Annuler</a>
+                    <a href="{% url 'nnf:modifier_personne' personne.id %}" class="btn btn-primary">Modifier info de base</a>
+                    <a href="{% url 'nnf:liste_personnes' %}" class="btn btn-primary">Retour</a>
                 </div>
             </div>
         </div>

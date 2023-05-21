@@ -17,19 +17,16 @@
                data-response-handler="responseHandler">
             <thead>
                 <tr>
-                    <th data-field="linenum" data-sortable="true">#</th>
                     <th data-field="annee" data-sortable="true">Année</th>
                     <th data-field="navire" data-sortable="true">Navire</th>
                     <th data-field="origine" data-sortable="true">Origine</th>
                     <th data-field="destination" data-sortable="true">Destination</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 {% for t in traversees %}
                     <tr>
-                        <td>
-                            <a href="{% url 'nnf:detail_traversee' t.id %}">{{ forloop.counter }}</a>
-                        </td>
                         <td>
                             {{ t.depart_annee }}
                         </td>
@@ -50,6 +47,12 @@
                             {% else %}
                                 Inconnue
                             {% endif %}
+                        </td>
+                        <td class="text-center">
+                            <a href="{% url 'nnf:detail_traversee' t.id %}"
+                               class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Détail">
+                                <span class="bi-eye"></span>
+                            </a>
                         </td>
                     </tr>
                 {% endfor %}

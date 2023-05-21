@@ -25,10 +25,12 @@
             <tbody>
                 {% for p in proprietaires %}
                     <tr>
-                        <td>
-                            <a href="{% url 'nnf:detail_proprietaire' p.id %}">{{ p.nom }}</a>
-                        </td>
+                        <td>{{ p.nom }}</td>
                         <td class="text-center">
+                            <a href="{% url 'nnf:detail_proprietaire' p.id %}"
+                               class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Détail">
+                                <span class="bi-eye"></span>
+                            </a>
                             <a href="{% url 'nnf:modifier_proprietaire' p.id %}"
                                class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Modifier">
                                 <span class="bi-pencil"></span>
