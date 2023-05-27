@@ -28,6 +28,13 @@
                         <td>{% if personne.variation_du_nom %} {{ personne.variation_du_nom }} {% else %} Aucune {% endif %}</td>
                     </tr>
                     <tr>
+                        <td>Liste</td>
+                        <td>{{ personne.get_liste_display }}</td>
+                    <tr>
+                    <tr>
+                        <td>Lieu d'origine</td>
+                        <td>{% if personne.origine_lieu %} {{ personne.origine_lieu }} {% else %} Inconnu {% endif %}</td>
+                    <tr>
                         <td>Titre</td>
                         <td>{% if personne.titre %} {{ personne.titre }} {% else %} Inconnu {% endif %}</td>
                     </tr>

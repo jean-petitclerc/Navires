@@ -10,6 +10,7 @@ urlpatterns = [
     path('navire/modif/<int:id>', views.modifier_navire, name='modifier_navire'),
     path('navire/supp/<int:id>', views.supprimer_navire, name='supprimer_navire'),
     path('personnes', views.liste_personnes, name='liste_personnes'),
+    path('gens_de_mer', views.liste_gens_de_mer, name='liste_gens_de_mer'),
     path('personne/<int:id>', views.detail_personne, name='detail_personne'),
     path('personne/ajout', views.ajout_personne, name='ajout_personne'),
     path('personne/modif/<int:id>', views.modifier_personne, name='modifier_personne'),

@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 
-{% block title %}Liste des Personnes{% endblock %}
+{% block title %}Liste {{ liste }}{% endblock %}
 {% block content %}
 <div class="container">
     <div class="page-header">
-        <h1>Liste des Personnes</h1>
+        <h1>Liste {{ liste }}</h1>
     </div>
     <p>
         <a href="{% url 'nnf:ajout_personne' %}" class="btn btn-primary">Ajouter une personne</a>
@@ -21,6 +21,7 @@
                     <th data-field="nom" data-sortable="true">Nom</th>
                     <th data-field="naissance" data-sortable="true">Naissance</th>
                     <th data-field="deces" data-sortable="true">Décès</th>
+                    <th data-field="liste" data-sortable="true">Liste</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -48,6 +49,7 @@
                                 Inconnue
                             {% endif %}
                         </td>
+                        <td>{{ p.get_liste_display }}</td>
                         <td class="text-center">
                             <a href="{% url 'nnf:detail_personne' p.id %}"
                                class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Détail">

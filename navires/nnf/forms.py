@@ -26,6 +26,7 @@ class FormPersonne(ModelForm):
         self.fields['variation_du_nom'].widget.attrs.update({'class': 'form-control'})
         self.fields['titre'].widget.attrs.update({'class': 'form-control'})
         self.fields['liste'].widget.attrs.update({'class': 'form-control'})
+        self.fields['origine_lieu'].widget.attrs.update({'class': 'form-control'})
         self.fields['naissance_annee'].widget.attrs.update({'class': 'form-control'})
         self.fields['naissance_mois'].widget.attrs.update({'class': 'form-control'})
         self.fields['naissance_jour'].widget.attrs.update({'class': 'form-control'})
@@ -38,14 +39,14 @@ class FormPersonne(ModelForm):
 
     class Meta:
         model = Personne
-        fields = ['nom','prenom','variation_du_nom','titre','liste',
+        fields = ['nom','prenom','variation_du_nom','titre','liste','origine_lieu',
                   'naissance_annee', 'naissance_mois', 'naissance_jour', 'naissance_lieu',
                   'deces_annee', 'deces_mois', 'deces_jour', 'deces_lieu', 'note_biographique']
         labels = {'nom': ('Nom'), 'prenom': ('Prénom'), 'variation_du_nom': ('Variation du nom'), 'titre': ('Titre'), 'liste': ('Liste'),
                   'naissance_annee': ('Année de naissance'), 'naissance_mois': ('Mois de naissance'), 'naissance_jour': ('Jour du mois de la naissance'),
                   'naissance_lieu': ('Lieu de naissance'),
                   'deces_annee': ('Année de décès'), 'deces_mois': ('Mois de décès'), 'deces_jour': ('Jour du mois du décès'),
-                  'deces_lieu': ('Lieu de décès'), 'note_biographique': ('Note biographique')}
+                  'deces_lieu': ('Lieu de décès'), 'note_biographique': ('Note biographique'), 'origine_lieu': ("Lieu d'origine")}
         widgets = {
             'note_biographique': Textarea(attrs={'rows': 8}),
         }

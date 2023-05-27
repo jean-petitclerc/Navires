@@ -102,7 +102,14 @@ def liste_personnes(request):
     personnes = Personne.objects.all().order_by('nom', 'prenom')
     return render(request,
                  'personnes/liste.html',
-                 {'personnes': personnes})
+                 {'personnes': personnes, 'liste': 'de toutes les personnes'})
+
+
+def liste_gens_de_mer(request):
+    personnes = Personne.objects.all().filter(liste=5).order_by('nom', 'prenom')
+    return render(request,
+                 'personnes/liste.html',
+                 {'personnes': personnes, 'liste': 'des gens de mer'})
 
 
 def detail_personne(request, id):

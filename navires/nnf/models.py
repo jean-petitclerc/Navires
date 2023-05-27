@@ -53,6 +53,7 @@ class Personne(models.Model):
     deces_lieu = models.CharField(max_length=100, null=True, blank=True, default='')
     note_biographique = models.CharField(max_length=2048, null=True, blank=True, default='')
     liste = models.SmallIntegerField(null=False, default=0, choices=CHOIX_LISTE)
+    origine_lieu = models.CharField(max_length=100, null=True, blank=True, default='')
 
     def __str__(self):
         return self.nom + ', ' + self.prenom
