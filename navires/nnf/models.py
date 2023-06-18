@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 class Proprietaire(models.Model):
     nom = models.CharField(max_length=100, null=False, unique=True)
@@ -54,6 +55,8 @@ class Personne(models.Model):
     note_biographique = models.CharField(max_length=2048, null=True, blank=True, default='')
     liste = models.SmallIntegerField(null=False, default=0, choices=CHOIX_LISTE)
     origine_lieu = models.CharField(max_length=100, null=True, blank=True, default='')
+    aud_crt_ts = models.DateTimeField(auto_now_add=True, null=True)
+    aud_upd_ts = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.nom + ', ' + self.prenom

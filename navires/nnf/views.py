@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.core.paginator import Paginator
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+
 
 from .models import Navire, Personne, Proprietaire, Armateur, Traversee, Autre_Navire_Traversee, Voyage
 from .forms import (FormNavire, FormPersonne, FormProprietaire, FormArmateur, FormTraversee, FormVoyage, FormAutreNavireTraversee, FormConfirmation)
@@ -40,6 +42,7 @@ def detail_navire(request, id):
                   {'navire': navire, 'traversees': traversees})
 
 
+@login_required
 def ajout_navire(request):
     if request.method == 'GET':
         form = FormNavire()
@@ -57,6 +60,7 @@ def ajout_navire(request):
                           {'form':FormNavire(), 'error':'Données invalides.'})
 
 
+@login_required
 def modifier_navire(request, id):
     navire = get_object_or_404(Navire, id=id)
     traversees = Traversee.objects.filter(navire_id=id)
@@ -76,6 +80,7 @@ def modifier_navire(request, id):
                           {'form':form, 'error':'Données invalides.'})
 
 
+@login_required
 def supprimer_navire(request, id):
     if request.method == 'GET':
         try:
@@ -123,6 +128,7 @@ def detail_personne(request, id):
                   {'personne': personne, 'voyages': voyages})
 
 
+@login_required
 def ajout_personne(request):
     if request.method == 'GET':
         print("get")
@@ -143,6 +149,7 @@ def ajout_personne(request):
                           {'form':FormPersonne(), 'error':'Données invalides.'})
 
 
+@login_required
 def modifier_personne(request, id):
     p = get_object_or_404(Personne, id=id)
     if request.method == 'GET':
@@ -163,6 +170,7 @@ def modifier_personne(request, id):
                           {'form':form, 'error':'Données invalides.'})
 
 
+@login_required
 def modifier_personne_alt(request, id):
     personne = get_object_or_404(Personne, id=id)
     voyages = Voyage.objects.filter(personne_id=id)
@@ -171,6 +179,7 @@ def modifier_personne_alt(request, id):
                  {'personne': personne, 'voyages': voyages})
 
 
+@login_required
 def supprimer_personne(request, id):
     if request.method == 'GET':
         try:
@@ -212,6 +221,7 @@ def detail_proprietaire(request, id):
                    'navires': navires})
 
 
+@login_required
 def ajout_proprietaire(request):
     if request.method == 'GET':
         return render(request, 'proprietaires/ajout.html',
@@ -228,6 +238,7 @@ def ajout_proprietaire(request):
                           {'form':FormProprietaire(), 'error':'Données invalides.'})
 
 
+@login_required
 def modifier_proprietaire(request, id):
     proprietaire = get_object_or_404(Proprietaire, id=id)
     if request.method == 'GET':
@@ -246,6 +257,7 @@ def modifier_proprietaire(request, id):
                           {'form':form, 'error':'Données invalides.'})
 
 
+@login_required
 def supprimer_proprietaire(request, id):
     if request.method == 'GET':
         try:
@@ -286,6 +298,7 @@ def detail_armateur(request, id):
                   {'armateur': armateur, 'navires': navires})
 
 
+@login_required
 def ajout_armateur(request):
     if request.method == 'GET':
         return render(request, 'armateurs/ajout.html',
@@ -302,6 +315,7 @@ def ajout_armateur(request):
                           {'form':FormArmateur(), 'error':'Données invalides.'})
 
 
+@login_required
 def modifier_armateur(request, id):
     armateur = get_object_or_404(Armateur, id=id)
     if request.method == 'GET':
@@ -320,6 +334,7 @@ def modifier_armateur(request, id):
                           {'form':form, 'error':'Données invalides.'})
 
 
+@login_required
 def supprimer_armateur(request, id):
     if request.method == 'GET':
         try:
@@ -360,6 +375,7 @@ def detail_traversee(request, id):
                   {'traversee': traversee, 'passagers': passagers})
 
 
+@login_required
 def ajout_traversee(request, navire_id):
     navire = get_object_or_404(Navire, id=navire_id)
     if request.method == 'GET':
@@ -379,6 +395,7 @@ def ajout_traversee(request, navire_id):
                           {'form':FormNavire(), 'navire': navire, 'error':'Données invalides.'})
 
 
+@login_required
 def modifier_traversee(request, id):
     traversee = get_object_or_404(Traversee, id=id)
     if request.method == 'GET':
@@ -398,6 +415,7 @@ def modifier_traversee(request, id):
                           {'form':form, 'error':'Données invalides.'})
 
 
+@login_required
 def supprimer_traversee(request, id):
     if request.method == 'GET':
         try:
@@ -431,6 +449,7 @@ def detail_autre_navire_traversee(request, id):
                   {'ant': ant})
 
 
+@login_required
 def ajout_autre_navire_traversee(request, traversee_id):
     traversee = get_object_or_404(Traversee, id=traversee_id)
     if request.method == 'GET':
@@ -450,6 +469,7 @@ def ajout_autre_navire_traversee(request, traversee_id):
                           {'form':FormAutreNavireTraversee(), 'traversee': traversee, 'error':'Données invalides.'})
 
 
+@login_required
 def modifier_autre_navire_traversee(request, id):
     ant = get_object_or_404(Autre_Navire_Traversee, id=id)
     if request.method == 'GET':
@@ -468,6 +488,7 @@ def modifier_autre_navire_traversee(request, id):
                           {'form':form, 'error':'Données invalides.'})
 
 
+@login_required
 def ajout_voyage(request, personne_id):
     personne = get_object_or_404(Personne, id=personne_id)
     if request.method == 'GET':
@@ -493,6 +514,7 @@ def ajout_voyage(request, personne_id):
                           {'form':FormVoyage(), 'personne': personne, 'error':'Données invalides.'})
 
 
+@login_required
 def modifier_voyage(request, id):
     voyage = get_object_or_404(Voyage, id=id)
     if voyage:
@@ -515,6 +537,7 @@ def modifier_voyage(request, id):
                           {'form':form, 'error':'Données invalides.'})
 
 
+@login_required
 def supprimer_voyage(request, id):
     if request.method == 'GET':
         try:

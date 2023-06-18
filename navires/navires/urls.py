@@ -22,4 +22,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', nnfViews.home),
     path('navires/', include('nnf.urls', namespace='nnf')),
+    path('account/', include('account.urls', namespace='account')),
 ]

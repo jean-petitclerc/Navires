@@ -38,6 +38,25 @@
                                     <li><a class="dropdown-item" href="{% url 'nnf:liste_gens_de_mer' %}">Gens de mer</a></li>
                                 </ul>
                             </li>
+                            <li class="nav-item dropdown">
+                                {% if user.is_authenticated %}
+                                    {% if user.first_name %}
+                                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ user.first_name }}</a>
+                                    {% else %}
+                                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ user.username }}</a>
+                                    {% endif %}
+                                {% else %}
+                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Connexion</a>
+                                {% endif %}
+                                <ul class="dropdown-menu dropdown-menu-dark">
+                                    {% if user.is_authenticated %}
+                                        <li><a class="dropdown-item" href="{% url 'account:logout' %}">Déconnexion</a></li>
+                                    {% else %}
+                                        <li><a class="dropdown-item" href="{% url 'account:login' %}">Connexion</a></li>
+                                        <li><a class="dropdown-item" href="{% url 'account:register_account' %}">Inscription</a></li>
+                                    {% endif %}
+                                </ul>
+                            </li>
 
                         </ul>
                     </div>

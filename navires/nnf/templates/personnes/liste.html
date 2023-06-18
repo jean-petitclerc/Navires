@@ -2,7 +2,7 @@
 
 {% block title %}Liste {{ liste }}{% endblock %}
 {% block content %}
-<div class="container">
+<div class="container-fluid">
     <div class="page-header">
         <h1>Liste {{ liste }}</h1>
     </div>
@@ -13,15 +13,18 @@
                data-search="true"
                data-show-columns="true"
                data-pagination="true"
-               data-page-size="25"
+               data-page-size="500"
                data-page-list="[25, 50, 100, 250, 500, all]"
                data-response-handler="responseHandler">
             <thead>
                 <tr>
                     <th data-field="nom" data-sortable="true">Nom</th>
-                    <th data-field="origine" data-sortable="true">Lieu D'origine</th>
+                    <th data-field="origine" data-sortable="true">Lieu d'origine</th>
                     <th data-field="liste" data-sortable="true">Liste</th>
-                    <th>Actions</th>
+                    <th data-field="date_creation" data-sortable="true">Date création</th>
+                    {% if user.is_authenticated %}
+                        <th>Actions</th>
+                    {% endif %}
                 </tr>
             </thead>
             <tbody>
@@ -42,24 +45,32 @@
                             {% endif %}
                         </td>
                         <td>{{ p.get_liste_display }}</td>
-                        <td class="text-center">
-                            <a href="{% url 'nnf:detail_personne' p.id %}"
-                               class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Détail">
-                                <span class="bi-eye"></span>
-                            </a>
-                            <a href="{% url 'nnf:modifier_personne' p.id %}"
-                               class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Modifier (info de base)">
-                                <span class="bi-pencil"></span>
-                            </a>
-                            <a href="{% url 'nnf:modifier_personne_alt' p.id %}"
-                               class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Modifier (autre)">
-                                <span class="bi-pencil"></span>
-                            </a>
-                            <a href="{% url 'nnf:supprimer_personne' p.id %}"
-                               class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Supprimer">
-                               <span class="bi-trash"></span>
-                            </a>
+                        <td>{% if p.aud_crt_ts %}
+                                {{ p.aud_crt_ts }}
+                            {% else %}
+                                Indéfinie
+                            {% endif %}
                         </td>
+                        {% if user.is_authenticated %}
+                            <td class="text-center">
+                                <a href="{% url 'nnf:detail_personne' p.id %}"
+                                class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Détail">
+                                    <span class="bi-eye"></span>
+                                </a>
+                                <a href="{% url 'nnf:modifier_personne' p.id %}"
+                                class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Modifier (info de base)">
+                                    <span class="bi-pencil"></span>
+                                </a>
+                                <a href="{% url 'nnf:modifier_personne_alt' p.id %}"
+                                class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Modifier (autre)">
+                                    <span class="bi-pencil"></span>
+                                </a>
+                                <a href="{% url 'nnf:supprimer_personne' p.id %}"
+                                class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Supprimer">
+                                <span class="bi-trash"></span>
+                                </a>
+                            </td>
+                        {% endif %}
                     </tr>
                 {% endfor %}
             </tbody>
