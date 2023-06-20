@@ -19,6 +19,24 @@
                         <td>Nom</td>
                         <td>{{ proprietaire.nom }}</td>
                     </tr>
+                    <tr>
+                        <td>Ajouté par</td>
+                        <td>{{ proprietaire.aud_crt_user.username }}</td>
+                    </tr>
+                    <tr>
+                        <td>Ajouté le</td>
+                        <td>{{ proprietaire.aud_crt_ts }}</td>
+                    </tr>
+                    {% if proprietaire.aud_upd_user %}
+                        <tr>
+                            <td>Mis à jour par</td>
+                            <td>{{ proprietaire.aud_upd_user.username }}</td>
+                        </tr>
+                        <tr>
+                            <td>Mis à jour le</td>
+                            <td>{{ proprietaire.aud_upd_ts }}</td>
+                        </tr>
+                    {% endif %}
                 </tbody>
             </table>
         <hr />

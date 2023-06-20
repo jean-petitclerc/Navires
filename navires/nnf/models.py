@@ -1,8 +1,13 @@
 from django.db import models
+from django.contrib.auth.models import User
 from django.utils import timezone
 
 class Proprietaire(models.Model):
     nom = models.CharField(max_length=100, null=False, unique=True)
+    aud_crt_user = models.ForeignKey(User,on_delete=models.RESTRICT, related_name='proprio_created_by', default=1)
+    aud_crt_ts = models.DateTimeField(auto_now_add=True, null=True)
+    aud_upd_user = models.ForeignKey(User,on_delete=models.RESTRICT, null=True, related_name='proprio_updated_by')
+    aud_upd_ts = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self):
         return self.nom

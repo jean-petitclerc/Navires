@@ -230,6 +230,7 @@ def ajout_proprietaire(request):
         try:
             form = FormProprietaire(request.POST)
             proprietaire = form.save(commit=False)
+            proprietaire.aud_crt_user = request.user
             proprietaire.save()
             messages.success(request, 'Le propriétaire a été ajouté.')
             return redirect('nnf:liste_proprietaires')
@@ -249,6 +250,7 @@ def modifier_proprietaire(request, id):
         try:
             form = FormProprietaire(request.POST, instance=proprietaire)
             proprietaire = form.save(commit=False)
+            proprietaire.aud_upd_user = request.user
             proprietaire.save()
             messages.success(request, 'Le propriétaire a été modifié.')
             return redirect('nnf:liste_proprietaires')
