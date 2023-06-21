@@ -309,6 +309,7 @@ def ajout_armateur(request):
         try:
             form = FormArmateur(request.POST)
             armateur = form.save(commit=False)
+            armateur.aud_crt_user = request.user
             armateur.save()
             messages.success(request, "L'armateur a été ajouté.")
             return redirect('nnf:liste_armateurs')
@@ -328,6 +329,7 @@ def modifier_armateur(request, id):
         try:
             form = FormArmateur(request.POST, instance=armateur)
             armateur = form.save(commit=False)
+            armateur.aud_upd_user = request.user
             armateur.save()
             messages.success(request, "L'armateur a été modifié.")
             return redirect('nnf:liste_armateurs')
