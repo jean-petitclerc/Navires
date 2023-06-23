@@ -52,6 +52,7 @@ def ajout_navire(request):
         try:
             form = FormNavire(request.POST)
             navire = form.save(commit=False)
+            navire.aud_crt_user = request.user
             navire.save()
             messages.success(request, 'Le navire a été ajouté.')
             return redirect('nnf:liste_navires')
@@ -72,6 +73,7 @@ def modifier_navire(request, id):
         try:
             form = FormNavire(request.POST, instance=navire)
             navire = form.save(commit=False)
+            navire.aud_upd_user = request.user
             navire.save()
             messages.success(request, 'Le navire a été modifié.')
             return redirect('nnf:liste_navires')

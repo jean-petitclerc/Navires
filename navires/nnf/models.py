@@ -29,6 +29,10 @@ class Navire(models.Model):
     proprietaire = models.ForeignKey(Proprietaire, on_delete=models.RESTRICT, related_name='liste_navires', null=True, default=None)
     armateur = models.ForeignKey(Armateur, on_delete=models.RESTRICT, related_name='liste_navires', null=True, default=None)
     tonnage = models.IntegerField(null=True, default=0)
+    aud_crt_user = models.ForeignKey(User,on_delete=models.RESTRICT, related_name='navire_created_by', default=1)
+    aud_crt_ts = models.DateTimeField(auto_now_add=True, null=True)
+    aud_upd_user = models.ForeignKey(User,on_delete=models.RESTRICT, null=True, related_name='navire_updated_by')
+    aud_upd_ts = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self):
         return self.nom

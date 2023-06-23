@@ -43,6 +43,24 @@
                             <td>&nbsp;</td>
                         {% endif %}
                     </tr>
+                    <tr>
+                        <td>Ajouté par</td>
+                        <td>{{ navire.aud_crt_user.username }}</td>
+                    </tr>
+                    <tr>
+                        <td>Ajouté le</td>
+                        <td>{{ navire.aud_crt_ts }}</td>
+                    </tr>
+                    {% if navire.aud_upd_user %}
+                        <tr>
+                            <td>Mis à jour par</td>
+                            <td>{{ navire.aud_upd_user.username }}</td>
+                        </tr>
+                        <tr>
+                            <td>Mis à jour le</td>
+                            <td>{{ navire.aud_upd_ts }}</td>
+                        </tr>
+                    {% endif %}
                 </tbody>
             </table>
         <hr />
