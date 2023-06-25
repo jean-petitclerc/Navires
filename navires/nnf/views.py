@@ -143,6 +143,7 @@ def ajout_personne(request):
             p = form.save(commit=False)
             p.naissance_date = creer_date(p.naissance_annee, p.naissance_mois, p.naissance_jour)
             p.deces_date = creer_date(p.deces_annee, p.deces_mois, p.deces_jour)
+            p.aud_crt_user = request.user
             p.save()
             messages.success(request, 'La personne a été ajoutée.')
             return redirect('nnf:modifier_personne_alt', p.id)
@@ -164,6 +165,7 @@ def modifier_personne(request, id):
             p = form.save(commit=False)
             p.naissance_date = creer_date(p.naissance_annee, p.naissance_mois, p.naissance_jour)
             p.deces_date = creer_date(p.deces_annee, p.deces_mois, p.deces_jour)
+            p.aud_upd_user = request.user
             p.save()
             messages.success(request, 'La personne a été modifiée.')
             return redirect('nnf:liste_personnes')

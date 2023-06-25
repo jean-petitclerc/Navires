@@ -82,6 +82,24 @@
                             {% endif %}
                         </td>
                     </tr>
+                    <tr>
+                        <td>Ajouté par</td>
+                        <td>{{ personne.aud_crt_user.username }}</td>
+                    </tr>
+                    <tr>
+                        <td>Ajouté le</td>
+                        <td>{{ personne.aud_crt_ts }}</td>
+                    </tr>
+                    {% if personne.aud_upd_user %}
+                        <tr>
+                            <td>Mis à jour par</td>
+                            <td>{{ personne.aud_upd_user.username }}</td>
+                        </tr>
+                        <tr>
+                            <td>Mis à jour le</td>
+                            <td>{{ personne.aud_upd_ts }}</td>
+                        </tr>
+                    {% endif %}
                 </tbody>
             </table>
             {% if personne.note_biographique %}

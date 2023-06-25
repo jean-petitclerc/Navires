@@ -68,7 +68,9 @@ class Personne(models.Model):
     note_biographique = models.CharField(max_length=2048, null=True, blank=True, default='')
     liste = models.SmallIntegerField(null=False, default=0, choices=CHOIX_LISTE)
     origine_lieu = models.CharField(max_length=100, null=True, blank=True, default='')
+    aud_crt_user = models.ForeignKey(User,on_delete=models.RESTRICT, related_name='personne_created_by', default=1)
     aud_crt_ts = models.DateTimeField(auto_now_add=True, null=True)
+    aud_upd_user = models.ForeignKey(User,on_delete=models.RESTRICT, null=True, related_name='personne_updated_by')
     aud_upd_ts = models.DateTimeField(auto_now=True)
 
     def __str__(self):
