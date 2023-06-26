@@ -108,6 +108,10 @@ class Autre_Navire_Traversee(models.Model):
     navire = models.ForeignKey(Navire, on_delete=models.RESTRICT, related_name='etait_dans', null=False)
     traversee = models.ForeignKey(Traversee, on_delete=models.CASCADE, related_name='comportait_aussi', null=False)
     observations = models.CharField(max_length=2048, null=True, blank=True, default='')
+    aud_crt_user = models.ForeignKey(User,on_delete=models.RESTRICT, related_name='autre_navire_creee_par', default=1)
+    aud_crt_ts = models.DateTimeField(auto_now_add=True, null=True)
+    aud_upd_user = models.ForeignKey(User,on_delete=models.RESTRICT, null=True, related_name='autre_navire_maj_par')
+    aud_upd_ts = models.DateTimeField(auto_now=True)
 
 
 class Voyage(models.Model):

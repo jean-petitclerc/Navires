@@ -409,9 +409,9 @@ def modifier_traversee(request, id):
     traversee = get_object_or_404(Traversee, id=id)
     if request.method == 'GET':
         form = FormTraversee(instance=traversee)
-        autres_navires = traversee.comportait_aussi.all()
+        #autres_navires = traversee.comportait_aussi.all()
         return render(request, 'traversees/modif.html',
-                    {'form':form, 'traversee': traversee, 'autres_navires': autres_navires})
+                    {'form':form, 'traversee': traversee})
     else:
         try:
             form = FormTraversee(request.POST, instance=traversee)
@@ -471,6 +471,7 @@ def ajout_autre_navire_traversee(request, traversee_id):
             form = FormAutreNavireTraversee(request.POST)
             ant = form.save(commit=False)
             ant.traversee_id = traversee.id
+            ant.aud_crt_user = request.user
             ant.save()
             messages.success(request, 'Le navire a été ajouté à la traversée.')
             return redirect('nnf:modifier_traversee', traversee_id)
@@ -490,6 +491,7 @@ def modifier_autre_navire_traversee(request, id):
         try:
             form = FormAutreNavireTraversee(request.POST, instance=ant)
             ant = form.save(commit=False)
+            ant.aud_upd_user = request.user
             ant.save()
             messages.success(request, 'Le navire de la traversée a été modifié.')
             return redirect('nnf:modifier_traversee', ant.traversee.id)

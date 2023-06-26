@@ -28,7 +28,7 @@
     <hr>
     <div class="container">
         <h4>Autres navires dans la traversée</h4>
-        {% if autres_navires %}
+        {% if traversee.comportait_aussi.all %}
             <table class="table table-bordered table-striped">
                 <thead>
                     <tr>
@@ -37,7 +37,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for n in autres_navires %}
+                    {% for n in traversee.comportait_aussi.all %}
                         <tr>
                             <td>{{ n.navire.nom }}</td>
                             <td>
