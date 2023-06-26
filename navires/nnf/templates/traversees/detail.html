@@ -91,7 +91,25 @@
                         <td>Autres navires</td>
                         <td>{{ traversee.nb_autres_navires }}</td>
                     </tr>
-                </tbody>
+                    <tr>
+                        <td>Ajouté par</td>
+                        <td>{{ traversee.aud_crt_user.username }}</td>
+                    </tr>
+                    <tr>
+                        <td>Ajouté le</td>
+                        <td>{{ traversee.aud_crt_ts }}</td>
+                    </tr>
+                    {% if traversee.aud_upd_user %}
+                        <tr>
+                            <td>Mis à jour par</td>
+                            <td>{{ traversee.aud_upd_user.username }}</td>
+                        </tr>
+                        <tr>
+                            <td>Mis à jour le</td>
+                            <td>{{ traversee.aud_upd_ts }}</td>
+                        </tr>
+                    {% endif %}
+                    </tbody>
             </table>
             <div class="card">
                 <div class="card-body">

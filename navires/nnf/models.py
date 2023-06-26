@@ -95,6 +95,10 @@ class Traversee(models.Model):
     notes_equipage_passagers = models.CharField(max_length=2048, null=True, blank=True, default='')
     observations = models.CharField(max_length=4096, null=True, blank=True, default='')
     nb_autres_navires = models.SmallIntegerField(null=False, default=0)
+    aud_crt_user = models.ForeignKey(User,on_delete=models.RESTRICT, related_name='traversee_creee_par', default=1)
+    aud_crt_ts = models.DateTimeField(auto_now_add=True, null=True)
+    aud_upd_user = models.ForeignKey(User,on_delete=models.RESTRICT, null=True, related_name='traversee_maj_par')
+    aud_upd_ts = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.navire.nom + '-' + str(self.depart_annee) + '-' + self.depart_lieu

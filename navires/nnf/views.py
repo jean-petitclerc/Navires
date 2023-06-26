@@ -395,6 +395,7 @@ def ajout_traversee(request, navire_id):
             form = FormTraversee(request.POST)
             traversee = form.save(commit=False)
             traversee.navire_id = navire.id
+            traversee.aud_crt_user = request.user
             traversee.save()
             messages.success(request, 'La traversée a été ajoutée.')
             return redirect('nnf:modifier_navire', navire_id)
@@ -415,6 +416,7 @@ def modifier_traversee(request, id):
         try:
             form = FormTraversee(request.POST, instance=traversee)
             traversee = form.save(commit=False)
+            traversee.aud_upd_user = request.user
             traversee.save()
             messages.success(request, 'La traversée a été modifiée.')
             return redirect('nnf:modifier_navire', traversee.navire_id)
