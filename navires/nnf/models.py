@@ -4,9 +4,9 @@ from django.utils import timezone
 
 class Proprietaire(models.Model):
     nom = models.CharField(max_length=100, null=False, unique=True)
-    aud_crt_user = models.ForeignKey(User,on_delete=models.RESTRICT, related_name='proprio_created_by', default=1)
+    aud_crt_user = models.ForeignKey(User,on_delete=models.RESTRICT, related_name='proprio_creee_par', default=1)
     aud_crt_ts = models.DateTimeField(auto_now_add=True, null=True)
-    aud_upd_user = models.ForeignKey(User,on_delete=models.RESTRICT, null=True, related_name='proprio_updated_by')
+    aud_upd_user = models.ForeignKey(User,on_delete=models.RESTRICT, null=True, related_name='proprio_maj_par')
     aud_upd_ts = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self):
@@ -15,9 +15,9 @@ class Proprietaire(models.Model):
 
 class Armateur(models.Model):
     nom = models.CharField(max_length=100, null=False, unique=True)
-    aud_crt_user = models.ForeignKey(User,on_delete=models.RESTRICT, related_name='armateur_created_by', default=1)
+    aud_crt_user = models.ForeignKey(User,on_delete=models.RESTRICT, related_name='armateur_creee_par', default=1)
     aud_crt_ts = models.DateTimeField(auto_now_add=True, null=True)
-    aud_upd_user = models.ForeignKey(User,on_delete=models.RESTRICT, null=True, related_name='armateur_updated_by')
+    aud_upd_user = models.ForeignKey(User,on_delete=models.RESTRICT, null=True, related_name='armateur_maj_par')
     aud_upd_ts = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self):
@@ -29,9 +29,9 @@ class Navire(models.Model):
     proprietaire = models.ForeignKey(Proprietaire, on_delete=models.RESTRICT, related_name='liste_navires', null=True, default=None)
     armateur = models.ForeignKey(Armateur, on_delete=models.RESTRICT, related_name='liste_navires', null=True, default=None)
     tonnage = models.IntegerField(null=True, default=0)
-    aud_crt_user = models.ForeignKey(User,on_delete=models.RESTRICT, related_name='navire_created_by', default=1)
+    aud_crt_user = models.ForeignKey(User,on_delete=models.RESTRICT, related_name='navire_creee_par', default=1)
     aud_crt_ts = models.DateTimeField(auto_now_add=True, null=True)
-    aud_upd_user = models.ForeignKey(User,on_delete=models.RESTRICT, null=True, related_name='navire_updated_by')
+    aud_upd_user = models.ForeignKey(User,on_delete=models.RESTRICT, null=True, related_name='navire_maj_par')
     aud_upd_ts = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self):
@@ -68,9 +68,9 @@ class Personne(models.Model):
     note_biographique = models.CharField(max_length=2048, null=True, blank=True, default='')
     liste = models.SmallIntegerField(null=False, default=0, choices=CHOIX_LISTE)
     origine_lieu = models.CharField(max_length=100, null=True, blank=True, default='')
-    aud_crt_user = models.ForeignKey(User,on_delete=models.RESTRICT, related_name='personne_created_by', default=1)
+    aud_crt_user = models.ForeignKey(User,on_delete=models.RESTRICT, related_name='personne_creee_par', default=1)
     aud_crt_ts = models.DateTimeField(auto_now_add=True, null=True)
-    aud_upd_user = models.ForeignKey(User,on_delete=models.RESTRICT, null=True, related_name='personne_updated_by')
+    aud_upd_user = models.ForeignKey(User,on_delete=models.RESTRICT, null=True, related_name='personne_maj_par')
     aud_upd_ts = models.DateTimeField(auto_now=True)
 
     def __str__(self):
