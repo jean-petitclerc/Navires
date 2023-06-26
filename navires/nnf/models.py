@@ -132,3 +132,7 @@ class Voyage(models.Model):
     traversee = models.ForeignKey(Traversee, on_delete=models.RESTRICT, related_name='liste_passagers', null=True, default=None)
     role = models.SmallIntegerField(null=False, default=0, choices=CHOIX_ROLE)
     uk = models.UniqueConstraint(name='voyage_uk', fields=["personne_id", "annee", "sequence"])
+    aud_crt_user = models.ForeignKey(User,on_delete=models.RESTRICT, related_name='voyage_creee_par', default=1)
+    aud_crt_ts = models.DateTimeField(auto_now_add=True, null=True)
+    aud_upd_user = models.ForeignKey(User,on_delete=models.RESTRICT, null=True, related_name='voyage_maj_par')
+    aud_upd_ts = models.DateTimeField(auto_now=True)

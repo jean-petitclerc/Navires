@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Voyage - Vue détaillée{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="page-header">
+            <h1>Vue détaillée - Voyage: {{ voyage.annee }}-{{ voyage.sequence }} de {{ voyage.personne.prenom }}&nbsp;{{ voyage.personne.nom }}</h1>
+        </div>
+        <p>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">Attribut</th>
+                        <th scope="col">Valeur</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Navire</td>
+                        {% if voyage.navire_nom %}
+                            <td>{{ voyage.navire_nom }}</td>
+                        {% else %}
+                            <td>Inconnu</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <td>Destination</td>
+                        {% if voyage.destination %}
+                            <td>{{ voyage.destination }}</td>
+                        {% else %}
+                            <td>Inconnue</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <td>Navire de la traversée</td>
+                        {% if voyage.traversee.navire.nom %}
+                            <td>{{ voyage.traversee.navire.nom }}</td>
+                        {% else %}
+                            <td>Inconnu</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <td>Destination de la traversée</td>
+                        {% if voyage.traversee.destination %}
+                            <td>{{ voyage.traversee.destination }}</td>
+                        {% else %}
+                            <td>Inconnue</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <td>Rôle</td>
+                        <td>{{ voyage.get_role_display }}</td>
+                    </tr>
+                    <tr>
+                        <td>Ajouté par</td>
+                        <td>{{ voyage.aud_crt_user.username }}</td>
+                    </tr>
+                    <tr>
+                        <td>Ajouté le</td>
+                        <td>{{ voyage.aud_crt_ts }}</td>
+                    </tr>
+                    {% if voyage.aud_upd_user %}
+                        <tr>
+                            <td>Mis à jour par</td>
+                            <td>{{ voyage.aud_upd_user.username }}</td>
+                        </tr>
+                        <tr>
+                            <td>Mis à jour le</td>
+                            <td>{{ voyage.aud_upd_ts }}</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </p>
+        <p>
+            <a href="{% url 'nnf:modifier_personne_alt' voyage.personne.id %}" class="btn btn-primary">Retour</a>
+        </p>
+    </div>
+{% endblock %}

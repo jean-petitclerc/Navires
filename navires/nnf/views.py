@@ -500,6 +500,16 @@ def modifier_autre_navire_traversee(request, id):
                           {'form':form, 'error':'Données invalides.'})
 
 
+def detail_voyage(request, id):
+    try:
+        voyage = Voyage.objects.get(id=id)
+    except Voyage.DoesNotExist:
+        raise Http404("Le voyage'est pas retrouvé.")
+    return render(request,
+                  'voyages/detail.html',
+                  {'voyage': voyage})
+
+
 @login_required
 def ajout_voyage(request, personne_id):
     personne = get_object_or_404(Personne, id=personne_id)
@@ -518,6 +528,7 @@ def ajout_voyage(request, personne_id):
             form = FormVoyage(request.POST)
             voyage = form.save(commit=False)
             voyage.personne_id = personne.id
+            voyage.aud_crt_user = request.user
             voyage.save()
             messages.success(request, 'Le voyage a été ajouté.')
             return redirect('nnf:modifier_personne_alt', personne_id)
@@ -541,6 +552,7 @@ def modifier_voyage(request, id):
         try:
             form = FormVoyage(request.POST, instance=voyage)
             voyage = form.save(commit=False)
+            voyage.aud_upd_user = request.user
             voyage.save()
             messages.success(request, 'Le voyage a été modifié.')
             return redirect('nnf:modifier_personne_alt', voyage.personne.id)

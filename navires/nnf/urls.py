@@ -34,6 +34,7 @@ urlpatterns = [
     path('a_n_t/ajout/<int:traversee_id>', views.ajout_autre_navire_traversee, name='ajout_autre_navire_traversee'),
     path('a_n_t/<int:id>', views.detail_autre_navire_traversee, name='detail_autre_navire_traversee'),
     path('a_n_t/modif/<int:id>', views.modifier_autre_navire_traversee, name='modifier_autre_navire_traversee'),
+    path('voyage/<int:id>', views.detail_voyage, name='detail_voyage'),
     path('voyage/ajout/<int:personne_id>', views.ajout_voyage, name='ajout_voyage'),
     path('voyage/modif/<int:id>', views.modifier_voyage, name='modifier_voyage'),
     path('voyage/supp/<int:id>', views.supprimer_voyage, name='supprimer_voyage'),
